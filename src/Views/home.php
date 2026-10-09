@@ -9,6 +9,26 @@ $currentUser = Auth::user();
 $dashboardUrl = ($currentUser && $currentUser['tipo'] === 'admin') 
     ? Helper::url('/admin/dashboard') 
     : Helper::url('/aluno/dashboard');
+
+// Lista igualitária dos integrantes da equipe de criação e desenvolvimento
+$equipeIntegrantes = [
+    [
+        'nome'     => 'Duilio Brito Segura',
+        'iniciais' => 'DS',
+    ],
+    [
+        'nome'     => 'Arthur Henrique Rodrigues',
+        'iniciais' => 'AR',
+    ],
+    [
+        'nome'     => 'Gabriel Santos Oliveira',
+        'iniciais' => 'GO',
+    ],
+    [
+        'nome'     => 'Lucas Ferreira Lima',
+        'iniciais' => 'LL',
+    ],
+];
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -53,23 +73,23 @@ $dashboardUrl = ($currentUser && $currentUser['tipo'] === 'admin')
                         <a class="nav-link" href="#disciplinas">Disciplinas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#equipe">Equipe & Propósito</a>
+                        <a class="nav-link" href="#equipe">Equipe</a>
                     </li>
                 </ul>
 
                 <div class="d-flex align-items-center gap-2">
                     <?php if ($currentUser): ?>
-                        <a href="<?= $dashboardUrl ?>" class="btn btn-primary d-inline-flex align-items-center gap-2 shadow-sm">
+                        <a href="<?= $dashboardUrl ?>" class="btn btn-primary btn-pill d-inline-flex align-items-center gap-2 shadow-sm">
                             <i class="bi bi-speedometer2"></i> Meu Dashboard
                         </a>
-                        <a href="<?= Helper::url('/logout') ?>" class="btn btn-outline-light btn-sm" title="Encerrar sessão">
+                        <a href="<?= Helper::url('/logout') ?>" class="btn btn-outline-light btn-sm rounded-circle p-2" title="Encerrar sessão">
                             <i class="bi bi-box-arrow-right"></i>
                         </a>
                     <?php else: ?>
-                        <a href="<?= Helper::url('/login') ?>" class="btn btn-outline-light px-3">
+                        <a href="<?= Helper::url('/login') ?>" class="btn btn-outline-light btn-pill px-4">
                             <i class="bi bi-box-arrow-in-right me-1"></i> Entrar
                         </a>
-                        <a href="<?= Helper::url('/cadastro') ?>" class="btn btn-primary px-3 shadow-sm">
+                        <a href="<?= Helper::url('/cadastro') ?>" class="btn btn-primary btn-pill px-4 shadow-sm">
                             Criar Conta Gratuita
                         </a>
                     <?php endif; ?>
@@ -79,65 +99,65 @@ $dashboardUrl = ($currentUser && $currentUser['tipo'] === 'admin')
     </nav>
 
     <!-- ==============================================================================
-         HERO SECTION (IMPACTO VISUAL)
+         HERO SECTION (ACOLHEDORA & IMPACTO VISUAL PARA VESTIBULANDOS)
          ============================================================================== -->
-    <header class="hero-gradient text-white py-5 py-lg-6" style="padding-top: 5rem; padding-bottom: 5rem;">
+    <header class="hero-gradient text-white py-5 py-lg-6" style="padding-top: 4.5rem; padding-bottom: 4.5rem;">
         <div class="container px-lg-4">
             <div class="row align-items-center g-5">
                 <div class="col-lg-7">
                     <!-- Badges de Foco -->
                     <div class="d-flex flex-wrap gap-2 mb-3">
                         <span class="hero-badge">
-                            <i class="bi bi-check-circle-fill"></i> 100% Gratuito & Aberto
+                            <i class="bi bi-stars"></i> 100% Gratuito & Aberto
                         </span>
                         <span class="badge bg-light bg-opacity-10 text-white border border-light border-opacity-25 rounded-pill px-3 py-2">
-                            ENEM &bull; FUVEST &bull; UNICAMP &bull; VUNESP
+                            Preparação Focada: ENEM &bull; FUVEST &bull; UNICAMP &bull; VUNESP
                         </span>
                     </div>
 
                     <h1 class="display-4 fw-bold lh-sm text-white mb-3">
-                        Sua preparação para o ENEM e Vestibulares totalmente <span style="color: #34d399;">gratuita</span>.
+                        Sua jornada rumo à aprovação <span style="color: #34d399;">começa aqui</span>.
                     </h1>
 
-                    <p class="fs-5 text-light opacity-90 mb-4 lh-base" style="color: #e2e8f0 !important;">
-                        Domine os conteúdos mais cobrados com nosso acervo estruturado de artigos teóricos e pratique em tempo real com questões comentadas de múltipla escolha. Sem pegadinhas, sem planos pagos.
+                    <p class="fs-5 text-light opacity-90 mb-4 lh-base" style="color: #e2e8f0 !important; max-width: 620px;">
+                        Acesse artigos teóricos estruturados e resolva questões oficiais comentadas passo a passo. Uma experiência de estudos completa, gratuita e pensada para a rotina do vestibulando.
                     </p>
 
                     <div class="d-flex flex-wrap gap-3">
                         <?php if ($currentUser): ?>
-                            <a href="<?= $dashboardUrl ?>" class="btn btn-primary btn-lg px-4 py-3 shadow d-inline-flex align-items-center gap-2">
+                            <a href="<?= $dashboardUrl ?>" class="btn btn-primary btn-pill btn-lg shadow d-inline-flex align-items-center gap-2">
                                 <i class="bi bi-arrow-right-circle-fill fs-5"></i> Continuar Meus Estudos
                             </a>
                         <?php else: ?>
-                            <a href="<?= Helper::url('/cadastro') ?>" class="btn btn-primary btn-lg px-4 py-3 shadow d-inline-flex align-items-center gap-2">
+                            <a href="<?= Helper::url('/cadastro') ?>" class="btn btn-primary btn-pill btn-lg shadow d-inline-flex align-items-center gap-2">
                                 <i class="bi bi-rocket-takeoff-fill fs-5"></i> Começar a Estudar Agora
                             </a>
-                            <a href="<?= Helper::url('/login') ?>" class="btn btn-outline-light btn-lg px-4 py-3">
-                                Já Tenho Conta
+                            <a href="<?= Helper::url('/login') ?>" class="btn btn-outline-light btn-pill btn-lg px-4">
+                                <i class="bi bi-door-open me-1"></i> Entrar na Plataforma
                             </a>
                         <?php endif; ?>
                     </div>
 
                     <!-- Métricas Rápidas no Hero -->
-                    <div class="row g-3 mt-4 pt-3 border-top border-light border-opacity-10">
+                    <div class="row g-3 mt-4 pt-4 border-top border-light border-opacity-10">
                         <div class="col-auto">
-                            <div class="fw-bold fs-4 text-white"><?= count($disciplinas) ?>+</div>
+                            <div class="fw-bold fs-3 text-white"><?= count($disciplinas) ?>+</div>
                             <div class="small opacity-75">Disciplinas Base</div>
                         </div>
                         <div class="col-auto px-4 border-start border-light border-opacity-10">
-                            <div class="fw-bold fs-4 text-white"><?= $totalArtigos ?>+</div>
+                            <div class="fw-bold fs-3 text-white"><?= $totalArtigos ?>+</div>
                             <div class="small opacity-75">Artigos Teóricos</div>
                         </div>
                         <div class="col-auto px-4 border-start border-light border-opacity-10">
-                            <div class="fw-bold fs-4 text-white"><?= $totalQuestoes ?>+</div>
+                            <div class="fw-bold fs-3 text-white"><?= $totalQuestoes ?>+</div>
                             <div class="small opacity-75">Questões Comentadas</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card Ilustrativo Interativo -->
+                <!-- Card Flutuante de Simulação em Tempo Real -->
                 <div class="col-lg-5">
-                    <div class="card border-0 shadow-lg rounded-4 p-4 text-dark bg-white">
+                    <div class="hero-card-floating p-4 text-dark">
                         <div class="d-flex align-items-center justify-content-between mb-3 pb-3 border-bottom">
                             <div class="d-flex align-items-center gap-2">
                                 <span class="badge badge-discipline px-2 py-1">Matemática</span>
@@ -145,9 +165,9 @@ $dashboardUrl = ($currentUser && $currentUser['tipo'] === 'admin')
                             </div>
                             <span class="badge bg-success text-white small px-2 py-1">Simulado Interativo</span>
                         </div>
-                        <h6 class="fw-bold text-dark mb-3">Exemplo de Resolução em Tempo Real:</h6>
+                        <h6 class="fw-bold text-dark mb-2">Exemplo de Resolução com Feedback Imediato:</h6>
                         <p class="small text-secondary mb-3">
-                            Uma função afim determina o valor do frete com taxa fixa de R$ 12,00 somada a R$ 3,50 por km. Para 40 km, qual o valor final?
+                            Uma função afim determina o valor do frete com taxa fixa de R$ 12,00 somada a R$ 3,50 por km. Para uma viagem de 40 km, qual o valor final?
                         </p>
                         <div class="list-group list-group-flush small mb-3">
                             <div class="list-group-item px-0 py-2 d-flex align-items-center gap-2 text-muted">
@@ -157,11 +177,15 @@ $dashboardUrl = ($currentUser && $currentUser['tipo'] === 'admin')
                                 <span class="badge bg-secondary rounded-pill">B</span> R$ 148,00
                             </div>
                             <div class="list-group-item px-0 py-2 d-flex align-items-center gap-2 fw-bold text-success bg-success-subtle rounded-2 px-2">
-                                <span class="badge bg-success rounded-pill">C</span> R$ 152,00 (Gabarito Correto)
+                                <span class="badge bg-success rounded-pill">C</span> R$ 152,00 &bull; <em>Gabarito Correto!</em>
+                            </div>
+                            <div class="list-group-item px-0 py-2 d-flex align-items-center gap-2 text-muted">
+                                <span class="badge bg-secondary rounded-pill">D</span> R$ 160,00
                             </div>
                         </div>
-                        <div class="p-2 rounded bg-light border small text-muted">
-                            <i class="bi bi-lightbulb-fill text-warning me-1"></i> <strong>Resolução:</strong> C(40) = 12 + (3,50 &times; 40) = R$ 152,00.
+                        <div class="alert alert-success py-2 px-3 mb-0 small rounded-3">
+                            <i class="bi bi-lightbulb-fill text-success me-1"></i>
+                            <strong>Explicação:</strong> $f(40) = 12 + (3{,}50 \times 40) = 12 + 140 = \text{R\$\ } 152{,}00$.
                         </div>
                     </div>
                 </div>
@@ -170,56 +194,64 @@ $dashboardUrl = ($currentUser && $currentUser['tipo'] === 'admin')
     </header>
 
     <!-- ==============================================================================
-         SEÇÃO SOBRE & PROPÓSITO
+         SEÇÃO SOBRE O PROJETO (MISSÃO SOCIAL E GRATUIDADE)
          ============================================================================== -->
     <section id="sobre" class="py-5 bg-white border-bottom">
         <div class="container px-lg-4 py-4">
             <div class="row align-items-center g-5">
                 <div class="col-lg-6">
-                    <span class="text-uppercase fw-bold text-success small tracking-wide">Sobre a Plataforma</span>
-                    <h2 class="h2 fw-bold text-dark mt-2 mb-3">
-                        Construído para democratizar a aprovação universitária.
+                    <span class="text-uppercase fw-bold text-success small tracking-wide">Propósito & Missão</span>
+                    <h2 class="display-6 fw-bold text-dark mt-2 mb-3">
+                        Educação de qualidade, acessível e sem barreiras financeiras
                     </h2>
-                    <p class="text-secondary lh-lg mb-4">
-                        O <strong>Vest+</strong> nasceu como uma iniciativa acadêmica aberta com um objetivo transparente: fornecer uma plataforma limpa, rápida e acessível para que qualquer estudante brasileiro tenha recursos de alto nível para se preparar para o ENEM e os vestibulares das universidades paulistas (USP, UNICAMP e UNESP).
+                    <p class="text-secondary lh-lg mb-3">
+                        O <strong>Vest+</strong> nasceu com a missão clara de democratizar a preparação pré-vestibular. Acreditamos que o acesso a resumos teóricos claros e exercícios com explicações detalhadas deve ser livre para todos os estudantes do Brasil.
                     </p>
+                    <p class="text-secondary lh-lg mb-4">
+                        Aqui você não encontra pegadinhas de assinaturas nem conteúdos bloqueados. Todas as matérias, artigos didáticos e resoluções comentadas estão abertos para apoiar o seu ritmo de estudo.
+                    </p>
+
                     <div class="row g-3">
                         <div class="col-sm-6">
                             <div class="d-flex align-items-center gap-2 text-dark fw-semibold">
-                                <i class="bi bi-check-circle-fill text-success fs-5"></i> Zero barreiras financeiras
+                                <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                                <span>100% Gratuito e Aberto</span>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="d-flex align-items-center gap-2 text-dark fw-semibold">
-                                <i class="bi bi-check-circle-fill text-success fs-5"></i> Sem anúncios intrusivos
+                                <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                                <span>Questões Comentadas</span>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="d-flex align-items-center gap-2 text-dark fw-semibold">
-                                <i class="bi bi-check-circle-fill text-success fs-5"></i> Gabaritos 100% explicados
+                                <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                                <span>Teoria em Artigos Focados</span>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="d-flex align-items-center gap-2 text-dark fw-semibold">
-                                <i class="bi bi-check-circle-fill text-success fs-5"></i> Arquitetura rápida e leve
+                                <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                                <span>Feedback Imediato</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-lg-6">
-                    <div class="p-4 p-md-5 rounded-4 bg-light border shadow-sm">
+                    <div class="card card-custom p-4 p-md-5 border-0 shadow-sm bg-light">
                         <div class="d-flex align-items-center gap-3 mb-4">
                             <div class="rounded-circle p-3 bg-success bg-opacity-10 text-success fs-3">
-                                <i class="bi bi-shield-check"></i>
+                                <i class="bi bi-heart-pulse-fill"></i>
                             </div>
                             <div>
-                                <h5 class="fw-bold mb-1 text-dark">Compromisso com o Código Aberto</h5>
-                                <p class="text-muted small mb-0">Projeto sob licença permissiva MIT no GitHub.</p>
+                                <h5 class="fw-bold text-dark mb-1">Feito por e para quem estuda</h5>
+                                <p class="text-muted small mb-0">Desenvolvimento com foco na melhor experiência de aprendizagem</p>
                             </div>
                         </div>
-                        <p class="text-secondary small lh-base mb-0">
-                            Desenvolvido com arquitetura limpa em PHP 8.2+ puro e Bootstrap 5, o Vest+ elimina dependências pesadas e garante acessibilidade até mesmo em dispositivos e conexões modestas, reforçando nossa responsabilidade com a inclusão digital educacional.
+                        <p class="text-secondary small lh-lg mb-0">
+                            Construído sobre pilares de código limpo em PHP moderno, arquitetura MVC sem dependências pesadas e interfaces rápidas, o Vest+ oferece alta performance tanto no computador quanto no celular para que seu foco seja único: <em>aprender e ser aprovado</em>.
                         </p>
                     </div>
                 </div>
@@ -228,64 +260,70 @@ $dashboardUrl = ($currentUser && $currentUser['tipo'] === 'admin')
     </section>
 
     <!-- ==============================================================================
-         SEÇÃO DE RECURSOS (OS DOIS MOTORES DO VEST+)
+         SEÇÃO DE RECURSOS (PILHARES DIDÁTICOS)
          ============================================================================== -->
     <section id="recursos" class="py-5" style="background-color: var(--vest-bg);">
         <div class="container px-lg-4 py-4">
             <div class="text-center max-w-xl mx-auto mb-5">
-                <span class="text-uppercase fw-bold text-success small tracking-wide">Recursos da Plataforma</span>
-                <h2 class="h2 fw-bold text-dark mt-2 mb-3">Tudo o que você precisa em um só lugar</h2>
+                <span class="text-uppercase fw-bold text-success small tracking-wide">Como a Plataforma Funciona</span>
+                <h2 class="display-6 fw-bold text-dark mt-2 mb-3">Tudo o que você precisa em um só lugar</h2>
                 <p class="text-muted col-lg-8 mx-auto">
-                    Aliamos teoria focada e prática constante para garantir a melhor retenção de conceitos no menor tempo de estudo.
+                    Conheça as três ferramentas essenciais desenvolvidas para estruturar e acelerar seu aprendizado.
                 </p>
             </div>
 
-            <div class="row g-4">
-                <!-- Card 1: CMS de Conteúdo Teórico -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="card card-custom h-100 p-4 border-top border-4 border-success hover-lift">
-                        <div class="d-inline-flex align-items-center justify-content-center rounded-3 p-3 mb-3 bg-success bg-opacity-10 text-success" style="width: 54px; height: 54px;">
-                            <i class="bi bi-journal-text fs-3"></i>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <!-- Recurso 1: Teoria Direta -->
+                <div class="col">
+                    <div class="feature-card">
+                        <div class="feature-icon-wrapper">
+                            <i class="bi bi-journal-richtext"></i>
                         </div>
-                        <h4 class="h5 fw-bold text-dark mb-2">CMS de Conteúdo Teórico</h4>
-                        <p class="text-muted small lh-base flex-grow-1">
-                            Artigos aprofundados com formatação limpa, tipografia confortável e fórmulas claras organizadas por matéria e tópicos prioritários do ENEM.
+                        <h4 class="h5 fw-bold text-dark mb-2">Teoria Descomplicada</h4>
+                        <p class="text-muted small lh-base mb-3">
+                            Artigos estruturados com linguagem clara, sínteses dos pontos mais cobrados nos vestibulares e caixas de dicas práticas do ENEM.
                         </p>
-                        <div class="pt-3 border-top mt-auto">
-                            <span class="text-success small fw-semibold"><i class="bi bi-check2 me-1"></i> Leitura Focada &bull; Sem distrações</span>
-                        </div>
+                        <ul class="list-unstyled small text-secondary d-flex flex-column gap-2 mb-0">
+                            <li><i class="bi bi-check2 text-success me-1"></i> Resumos organizados por assunto</li>
+                            <li><i class="bi bi-check2 text-success me-1"></i> Estimativa do tempo de leitura</li>
+                            <li><i class="bi bi-check2 text-success me-1"></i> Navegação rápida por tópicos</li>
+                        </ul>
                     </div>
                 </div>
 
-                <!-- Card 2: Banco de Questões Assíncrono -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="card card-custom h-100 p-4 border-top border-4 border-success hover-lift">
-                        <div class="d-inline-flex align-items-center justify-content-center rounded-3 p-3 mb-3 bg-success bg-opacity-10 text-success" style="width: 54px; height: 54px;">
-                            <i class="bi bi-patch-question fs-3"></i>
+                <!-- Recurso 2: Banco de Questões -->
+                <div class="col">
+                    <div class="feature-card">
+                        <div class="feature-icon-wrapper">
+                            <i class="bi bi-patch-question-fill"></i>
                         </div>
-                        <h4 class="h5 fw-bold text-dark mb-2">Banco de Questões Interativo</h4>
-                        <p class="text-muted small lh-base flex-grow-1">
-                            Resolução instantânea via Fetch API (Vanilla JS) sem recarregar a tela. Ao responder, você descobre na hora se acertou ou errou.
+                        <h4 class="h5 fw-bold text-dark mb-2">Questões com Gabarito Comentado</h4>
+                        <p class="text-muted small lh-base mb-3">
+                            Exercícios de múltipla escolha com correção instantânea e explicação pedagógica do porquê cada alternativa está certa ou errada.
                         </p>
-                        <div class="pt-3 border-top mt-auto">
-                            <span class="text-success small fw-semibold"><i class="bi bi-lightning-charge me-1"></i> Resolução Imediata &bull; Zero recarregamento</span>
-                        </div>
+                        <ul class="list-unstyled small text-secondary d-flex flex-column gap-2 mb-0">
+                            <li><i class="bi bi-check2 text-success me-1"></i> Resolução assíncrona sem recarregar a tela</li>
+                            <li><i class="bi bi-check2 text-success me-1"></i> Justificativas passo a passo</li>
+                            <li><i class="bi bi-check2 text-success me-1"></i> Padrão oficial ENEM e vestibulares</li>
+                        </ul>
                     </div>
                 </div>
 
-                <!-- Card 3: Gabarito Comentado -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="card card-custom h-100 p-4 border-top border-4 border-success hover-lift">
-                        <div class="d-inline-flex align-items-center justify-content-center rounded-3 p-3 mb-3 bg-success bg-opacity-10 text-success" style="width: 54px; height: 54px;">
-                            <i class="bi bi-chat-square-quote fs-3"></i>
+                <!-- Recurso 3: Filtros por Matéria -->
+                <div class="col">
+                    <div class="feature-card">
+                        <div class="feature-icon-wrapper">
+                            <i class="bi bi-funnel-fill"></i>
                         </div>
-                        <h4 class="h5 fw-bold text-dark mb-2">Gabarito Comentado Passo a Passo</h4>
-                        <p class="text-muted small lh-base flex-grow-1">
-                            Não fique na dúvida. Todas as questões acompanham explicação didática detalhada escrita por professores e pesquisadores da área.
+                        <h4 class="h5 fw-bold text-dark mb-2">Filtros Inteligentes</h4>
+                        <p class="text-muted small lh-base mb-3">
+                            Encontre rapidamente o conteúdo ou a lista de exercícios que você quer estudar por matéria específica ou categoria temática.
                         </p>
-                        <div class="pt-3 border-top mt-auto">
-                            <span class="text-success small fw-semibold"><i class="bi bi-lightbulb me-1"></i> Aprendizado Ativo &bull; Entenda o porquê</span>
-                        </div>
+                        <ul class="list-unstyled small text-secondary d-flex flex-column gap-2 mb-0">
+                            <li><i class="bi bi-check2 text-success me-1"></i> Seleção de disciplina em um clique</li>
+                            <li><i class="bi bi-check2 text-success me-1"></i> Cruzamento dinâmico de categorias</li>
+                            <li><i class="bi bi-check2 text-success me-1"></i> Estudo personalizado para o seu cronograma</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -293,17 +331,17 @@ $dashboardUrl = ($currentUser && $currentUser['tipo'] === 'admin')
     </section>
 
     <!-- ==============================================================================
-         SEÇÃO DE DISCIPLINAS
+         GRADE CURRICULAR (DISCIPLINAS)
          ============================================================================== -->
     <section id="disciplinas" class="py-5 bg-white border-top border-bottom">
         <div class="container px-lg-4 py-4">
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
                 <div>
-                    <span class="text-uppercase fw-bold text-success small tracking-wide">Grade Curricular</span>
+                    <span class="text-uppercase fw-bold text-success small tracking-wide">Acervo Didático</span>
                     <h2 class="h3 fw-bold text-dark mb-0 mt-1">Disciplinas Disponíveis</h2>
                 </div>
-                <a href="<?= Helper::url('/cadastro') ?>" class="btn btn-outline-primary btn-sm">
-                    Cadastre-se para Praticar Todas
+                <a href="<?= Helper::url('/cadastro') ?>" class="btn btn-outline-primary btn-pill btn-sm">
+                    Cadastre-se para Praticar Todas &rarr;
                 </a>
             </div>
 
@@ -331,74 +369,33 @@ $dashboardUrl = ($currentUser && $currentUser['tipo'] === 'admin')
     </section>
 
     <!-- ==============================================================================
-         SEÇÃO DA EQUIPE & PROPÓSITO DO PROJETO
+         SEÇÃO DA EQUIPE (APRESENTAÇÃO COLETIVA & IGUALITÁRIA)
          ============================================================================== -->
     <section id="equipe" class="py-5" style="background-color: var(--vest-bg);">
         <div class="container px-lg-4 py-4">
             <div class="text-center max-w-xl mx-auto mb-5">
                 <span class="text-uppercase fw-bold text-success small tracking-wide">Quem Faz Acontecer</span>
-                <h2 class="h2 fw-bold text-dark mt-2 mb-3">Equipe de Desenvolvimento & Propósito</h2>
+                <h2 class="display-6 fw-bold text-dark mt-2 mb-3">Equipe de Desenvolvimento & Criação</h2>
                 <p class="text-muted col-lg-8 mx-auto">
-                    Conheça as áreas responsáveis pela concepção, engenharia, curadoria pedagógica e garantia de qualidade do projeto Vest+.
+                    O projeto Vest+ é fruto do trabalho colaborativo e integrado de seus idealizadores, unindo pesquisa, engenharia de software e compromisso com a democratização do conhecimento.
                 </p>
             </div>
 
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-                <!-- Membro 1: Tech Lead & Engenharia -->
-                <div class="col">
-                    <div class="card card-custom h-100 p-4 text-center hover-lift">
-                        <div class="mx-auto rounded-circle d-flex align-items-center justify-content-center bg-success text-white mb-3 shadow-sm" style="width: 72px; height: 72px;">
-                            <i class="bi bi-code-slash fs-2"></i>
+            <!-- Grid Igualitário de Integrantes da Equipe -->
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4 justify-content-center">
+                <?php foreach ($equipeIntegrantes as $membro): ?>
+                    <div class="col">
+                        <div class="team-card-minimal">
+                            <div class="team-avatar-circle">
+                                <?= Helper::e($membro['iniciais']) ?>
+                            </div>
+                            <h5 class="fw-bold text-dark mb-1"><?= Helper::e($membro['nome']) ?></h5>
+                            <span class="badge badge-discipline rounded-pill small px-3 py-1 mt-2">
+                                Equipe Vest+
+                            </span>
                         </div>
-                        <h5 class="fw-bold text-dark mb-1">Duilio Brito Segura</h5>
-                        <span class="badge badge-discipline mb-3">Tech Lead & Full Stack</span>
-                        <p class="text-muted small lh-base mb-0">
-                            Responsável pela arquitetura MVC, modelagem relacional PDO, segurança anti-XSS/CSRF e motor assíncrono Vanilla JS.
-                        </p>
                     </div>
-                </div>
-
-                <!-- Membro 2: Conteúdo & Artigos -->
-                <div class="col">
-                    <div class="card card-custom h-100 p-4 text-center hover-lift">
-                        <div class="mx-auto rounded-circle d-flex align-items-center justify-content-center bg-dark text-white mb-3 shadow-sm" style="width: 72px; height: 72px;">
-                            <i class="bi bi-pencil-fill fs-3 text-success"></i>
-                        </div>
-                        <h5 class="fw-bold text-dark mb-1">Curadoria de Conteúdo</h5>
-                        <span class="badge bg-light text-secondary border mb-3">Equipe de Artigos</span>
-                        <p class="text-muted small lh-base mb-0">
-                            Pesquisa, redação e formatação didática dos artigos teóricos com foco nos tópicos de maior incidência no ENEM e na FUVEST.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Membro 3: Banco de Questões -->
-                <div class="col">
-                    <div class="card card-custom h-100 p-4 text-center hover-lift">
-                        <div class="mx-auto rounded-circle d-flex align-items-center justify-content-center bg-dark text-white mb-3 shadow-sm" style="width: 72px; height: 72px;">
-                            <i class="bi bi-patch-question-fill fs-3 text-success"></i>
-                        </div>
-                        <h5 class="fw-bold text-dark mb-1">Banco & Resoluções</h5>
-                        <span class="badge bg-light text-secondary border mb-3">Pesquisa de Questões</span>
-                        <p class="text-muted small lh-base mb-0">
-                            Seleção de questões oficiais de múltipla escolha e elaboração das resoluções explicativas passo a passo.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Membro 4: QA & Validação -->
-                <div class="col">
-                    <div class="card card-custom h-100 p-4 text-center hover-lift">
-                        <div class="mx-auto rounded-circle d-flex align-items-center justify-content-center bg-dark text-white mb-3 shadow-sm" style="width: 72px; height: 72px;">
-                            <i class="bi bi-clipboard2-check-fill fs-3 text-success"></i>
-                        </div>
-                        <h5 class="fw-bold text-dark mb-1">QA & Usabilidade</h5>
-                        <span class="badge bg-light text-secondary border mb-3">Qualidade & Testes</span>
-                        <p class="text-muted small lh-base mb-0">
-                            Validação contínua de rotas, testes de fumaça automatizados, compatibilidade mobile e critérios de aceitação.
-                        </p>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </section>
@@ -411,13 +408,13 @@ $dashboardUrl = ($currentUser && $currentUser['tipo'] === 'admin')
             <div class="p-5 rounded-4 text-white text-center shadow-lg" style="background: linear-gradient(135deg, #064e3b 0%, #059669 100%);">
                 <h2 class="display-6 fw-bold mb-3">Pronto para acelerar sua aprovação?</h2>
                 <p class="fs-5 text-light opacity-90 col-md-8 mx-auto mb-4" style="color: #ecfdf5 !important;">
-                    Junte-se ao Vest+ agora mesmo. Crie sua conta gratuita em menos de 1 minuto e comece a praticar hoje.
+                    Junte-se ao Vest+ agora mesmo. Crie sua conta gratuita em menos de 1 minuto e comece a estudar com foco nos resultados.
                 </p>
                 <div class="d-flex justify-content-center gap-3 flex-wrap">
-                    <a href="<?= Helper::url('/cadastro') ?>" class="btn btn-light btn-lg px-4 py-3 fw-bold text-success shadow-sm">
+                    <a href="<?= Helper::url('/cadastro') ?>" class="btn btn-light btn-pill btn-lg px-4 py-3 fw-bold text-success shadow-sm">
                         <i class="bi bi-person-plus-fill me-1"></i> Criar Conta Gratuita
                     </a>
-                    <a href="<?= Helper::url('/login') ?>" class="btn btn-outline-light btn-lg px-4 py-3">
+                    <a href="<?= Helper::url('/login') ?>" class="btn btn-outline-light btn-pill btn-lg px-4 py-3">
                         Fazer Login
                     </a>
                 </div>
@@ -440,7 +437,7 @@ $dashboardUrl = ($currentUser && $currentUser['tipo'] === 'admin')
                         Plataforma aberta de CMS e Banco de Questões voltada para vestibulandos e candidatos do ENEM. Desenvolvida em PHP 8.2+ puro com Bootstrap 5 e Vanilla JavaScript.
                     </p>
                     <div class="text-secondary small" style="color: #64748b !important;">
-                        Licença MIT &bull; Código Aberto no <a href="https://github.com/DuilioBSegura/VestMais-Project" class="text-light" target="_blank">GitHub</a>
+                        Licença MIT &bull; Código Aberto no <a href="https://github.com/DuilioBSegura/VestMais-Project" class="text-light text-decoration-underline" target="_blank">GitHub</a>
                     </div>
                 </div>
 

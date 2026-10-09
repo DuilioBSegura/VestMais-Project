@@ -81,9 +81,23 @@ final class AlunoController extends BaseController
             return;
         }
 
+        // Estima o tempo de leitura (~180 palavras por minuto)
+        $totalPalavras = str_word_count(strip_tags((string) $artigo['conteudo']));
+        $tempoLeitura = max(1, (int) ceil($totalPalavras / 180));
+
+        // Busca artigos relacionados da mesma disciplina
+        $todosDaDisciplina = Artigo::getByDisciplina((int) $artigo['disciplina_id']);
+        $artigosRelacionados = array_values(array_filter(
+            $todosDaDisciplina,
+            static fn(array $item): bool => (int) $item['id'] !== (int) $artigo['id']
+        ));
+        $artigosRelacionados = array_slice($artigosRelacionados, 0, 5);
+
         $this->render('aluno/artigo', [
-            'pageTitle' => $artigo['titulo'],
-            'artigo'    => $artigo,
+            'pageTitle'           => $artigo['titulo'],
+            'artigo'              => $artigo,
+            'tempoLeitura'        => $tempoLeitura,
+            'artigosRelacionados' => $artigosRelacionados,
         ]);
     }
 

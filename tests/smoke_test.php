@@ -96,25 +96,25 @@ runTest("Existência das 7 tabelas do banco de dados (schema & pivots)", functio
 }, $totalTests, $passedTests, $failedTests, $ansiGreen, $ansiRed, $ansiReset);
 
 // -----------------------------------------------------------------------------
-// TESTE 3: Usuários Seeds com autenticação Bcrypt
+// TESTE 3: Usuários e Contas Reais com autenticação Bcrypt
 // -----------------------------------------------------------------------------
-runTest("Existência e integridade das contas seed (Admin e Aluno)", function () {
+runTest("Existência e integridade das contas reais (Admin e Aluno)", function () {
     $pdo = Database::getConnection();
     
-    // Valida admin
+    // Valida admin real
     $stmtAdmin = $pdo->prepare('SELECT id, senha, tipo FROM usuarios WHERE email = :email LIMIT 1');
-    $stmtAdmin->execute([':email' => 'admin@vestplus.com.br']);
+    $stmtAdmin->execute([':email' => 'duiliobsegura@gmail.com']);
     $admin = $stmtAdmin->fetch(PDO::FETCH_ASSOC);
-    if (!$admin || $admin['tipo'] !== 'admin' || !password_verify('admin123', (string) $admin['senha'])) {
-        throw new \Exception("Conta de administrador padrão não configurada corretamente.");
+    if (!$admin || $admin['tipo'] !== 'admin' || !password_verify('AdminVest@2026', (string) $admin['senha'])) {
+        throw new \Exception("Conta de administrador real (duiliobsegura@gmail.com) não configurada corretamente.");
     }
 
-    // Valida aluno
+    // Valida aluno de demonstração
     $stmtAluno = $pdo->prepare('SELECT id, senha, tipo FROM usuarios WHERE email = :email LIMIT 1');
-    $stmtAluno->execute([':email' => 'aluno@vestplus.com.br']);
+    $stmtAluno->execute([':email' => 'estudante@vestmais.com.br']);
     $aluno = $stmtAluno->fetch(PDO::FETCH_ASSOC);
-    if (!$aluno || $aluno['tipo'] !== 'aluno' || !password_verify('aluno123', (string) $aluno['senha'])) {
-        throw new \Exception("Conta de estudante padrão não configurada corretamente.");
+    if (!$aluno || $aluno['tipo'] !== 'aluno' || !password_verify('AlunoVest@2026', (string) $aluno['senha'])) {
+        throw new \Exception("Conta de estudante (estudante@vestmais.com.br) não configurada corretamente.");
     }
 
     return true;

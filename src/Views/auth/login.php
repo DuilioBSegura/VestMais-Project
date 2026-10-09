@@ -106,11 +106,11 @@ use App\Core\Helper;
             <div class="mt-4 pt-3 border-top">
                 <div class="small fw-semibold text-secondary text-center mb-2">Acesso Rápido para Avaliação / Demonstração:</div>
                 <div class="d-grid gap-2">
-                    <button type="button" id="btnFillAluno" class="btn btn-outline-success btn-sm d-flex align-items-center justify-content-center gap-2">
-                        <i class="bi bi-person-fill"></i> Entrar como Aluno (aluno@vestplus.com.br)
-                    </button>
                     <button type="button" id="btnFillAdmin" class="btn btn-outline-secondary btn-sm d-flex align-items-center justify-content-center gap-2">
-                        <i class="bi bi-shield-lock-fill"></i> Entrar como Admin (admin@vestplus.com.br)
+                        <i class="bi bi-shield-lock-fill"></i> Administrador (duiliobsegura@gmail.com)
+                    </button>
+                    <button type="button" id="btnFillAluno" class="btn btn-outline-success btn-sm d-flex align-items-center justify-content-center gap-2">
+                        <i class="bi bi-person-fill"></i> Aluno (estudante@vestmais.com.br)
                     </button>
                 </div>
             </div>
@@ -129,14 +129,14 @@ use App\Core\Helper;
 
     <!-- Vanilla JS para preenchimento rápido -->
     <script>
-        document.getElementById('btnFillAluno')?.addEventListener('click', function () {
-            document.getElementById('email').value = 'aluno@vestplus.com.br';
-            document.getElementById('senha').value = 'aluno123';
+        document.getElementById('btnFillAdmin')?.addEventListener('click', function () {
+            document.getElementById('email').value = 'duiliobsegura@gmail.com';
+            document.getElementById('senha').value = 'AdminVest@2026';
         });
 
-        document.getElementById('btnFillAdmin')?.addEventListener('click', function () {
-            document.getElementById('email').value = 'admin@vestplus.com.br';
-            document.getElementById('senha').value = 'admin123';
+        document.getElementById('btnFillAluno')?.addEventListener('click', function () {
+            document.getElementById('email').value = 'estudante@vestmais.com.br';
+            document.getElementById('senha').value = 'AlunoVest@2026';
         });
     </script>
 </body>
