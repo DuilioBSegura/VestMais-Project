@@ -299,46 +299,35 @@ Acesse a aplicação no navegador em:
 
 ---
 
-## 🔑 Credenciais de Teste Pré-Configuradas
+## 🔑 Credenciais Homologadas para Avaliação Técnica
 
 Para agilizar a avaliação técnica, a tela de login (`/login`) conta com **botões de preenchimento automático em 1 clique**:
 
 | Papel | E-mail | Senha | Área de Destino |
 | :--- | :--- | :--- | :--- |
-| **Estudante (Aluno)** | `aluno@vestplus.com.br` | `aluno123` | Dashboard do Aluno (`/aluno/dashboard`) |
-| **Administrador** | `admin@vestplus.com.br` | `admin123` | Painel Administrativo (`/admin/artigos`) |
+| **Administrador Real** | `duiliobsegura@gmail.com` | `AdminVest@2026` | Painel Administrativo (`/admin/dashboard`) |
+| **Estudante (Aluno)** | `estudante@vestmais.com.br` | `AlunoVest@2026` | Dashboard do Aluno (`/aluno/dashboard`) |
 
 ---
 
-## 🧪 Suíte de Smoke Test & Garantia de Qualidade (QA)
+## 🧪 Suíte Completa de Auditoria Técnica & QA (Pré-Apresentação)
 
-O projeto inclui um script autônomo de verificação de integridade que valida conexões, integridade das 7 tabelas relacionais, contas seed, proteção XSS/CSRF, transações atômicas e motor assíncrono.
+O projeto inclui duas ferramentas autônomas de verificação executáveis via PHP CLI nativo, sem exigir PHPUnit ou Composer:
 
-Para executar o checklist automatizado antes de qualquer deploy:
+### 1. Suíte de Auditoria Global (18 Verificações - Segurança, Banco, Acessibilidade e Performance)
+```bash
+php tests/audit_suite.php
+```
+
+### 2. Suíte de Smoke Test & Integridade
 ```bash
 php tests/smoke_test.php
 ```
 
-### Exemplo de Saída do Smoke Test:
-```text
-=======================================================
-   Vest+ Platform - Smoke Test & QA Suite (v1.0.0)
-=======================================================
-
-[01] Conexão com Banco de Dados via PDO (MySQL/MariaDB)          [PASS]
-[02] Existência das 7 tabelas do banco de dados (schema & pivots) [PASS]
-[03] Existência e integridade das contas seed (Admin e Aluno)    [PASS]
-[04] Sanitização de saídas com htmlspecialchars (Anti-XSS)     [PASS]
-[05] Geração e validação estrita de tokens CSRF               [PASS]
-[06] Motor de conferência de gabarito e resolução comentada    [PASS]
-[07] Transações PDO seguras e deleção em cascata (ON DELETE CASCADE) [PASS]
-
--------------------------------------------------------
-Resultado: 7 APROVADOS | 0 FALHAS (Total: 7 testes)
--------------------------------------------------------
-
-SUCESSO: Todos os testes de fumaça e segurança foram validados com êxito! Pronto para release.
-```
+### Documentação Complementar para Apresentação:
+- **Roteiro Oficial da Apresentação:** Consulte [docs/ROTEIRO_APRESENTACAO.md](docs/ROTEIRO_APRESENTACAO.md) para o passo a passo cronometrado e matriz de contingência.
+- **Checklist WCAG AA & Responsividade:** Consulte [tests/frontend_checklist.md](tests/frontend_checklist.md) para a matriz de contraste e quebras de layout.
+- **Otimização de Índices SQL:** Script [database/indexes_optimization.sql](database/indexes_optimization.sql) para consultas abaixo de 50ms.
 
 ---
 

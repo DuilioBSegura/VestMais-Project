@@ -212,10 +212,17 @@ a:hover {
     padding: 0.85rem 1rem;
     transition: all 0.2s ease;
     background-color: #ffffff;
+    outline: none;
 }
 .card-alternativa:hover {
     background-color: var(--vest-bg-mint-subtle);
     border-color: var(--vest-primary-light);
+}
+.card-alternativa:focus-visible,
+.card-alternativa:focus-within {
+    border-color: var(--vest-primary) !important;
+    box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.25) !important;
+    background-color: var(--vest-bg-mint-subtle);
 }
 
 /* Hero Section & Botões Pill */
