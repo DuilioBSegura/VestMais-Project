@@ -10,23 +10,31 @@ $dashboardUrl = ($currentUser && $currentUser['tipo'] === 'admin')
     ? Helper::url('/admin/dashboard') 
     : Helper::url('/aluno/dashboard');
 
-// Lista igualitária dos integrantes da equipe de criação e desenvolvimento
+// Lista igualitária dos 6 integrantes da equipe de criação do projeto
 $equipeIntegrantes = [
     [
-        'nome'     => 'Duilio Brito Segura',
-        'iniciais' => 'DS',
+        'nome'     => 'Duílio',
+        'iniciais' => 'D',
     ],
     [
-        'nome'     => 'Arthur Henrique Rodrigues',
-        'iniciais' => 'AR',
+        'nome'     => 'Davi',
+        'iniciais' => 'D',
     ],
     [
-        'nome'     => 'Gabriel Santos Oliveira',
-        'iniciais' => 'GO',
+        'nome'     => 'Lucas César',
+        'iniciais' => 'LC',
     ],
     [
-        'nome'     => 'Lucas Ferreira Lima',
-        'iniciais' => 'LL',
+        'nome'     => 'Ricardo',
+        'iniciais' => 'R',
+    ],
+    [
+        'nome'     => 'Cauã Meira',
+        'iniciais' => 'CM',
+    ],
+    [
+        'nome'     => 'Ethan',
+        'iniciais' => 'E',
     ],
 ];
 ?>
@@ -36,11 +44,8 @@ $equipeIntegrantes = [
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= Helper::e($pageTitle ?? 'Vest+ | Plataforma Gratuita para o ENEM e Vestibulares') ?></title>
-    <!-- Bootstrap 5.3 CSS via CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <!-- Bootstrap Icons via CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- Design System Global (Verde Esmeralda / Menta) -->
     <link rel="stylesheet" href="<?= Helper::url('/css/style.css') ?>">
 </head>
 <body>
@@ -251,7 +256,7 @@ $equipeIntegrantes = [
                             </div>
                         </div>
                         <p class="text-secondary small lh-lg mb-0">
-                            Construído sobre pilares de código limpo em PHP moderno, arquitetura MVC sem dependências pesadas e interfaces rápidas, o Vest+ oferece alta performance tanto no computador quanto no celular para que seu foco seja único: <em>aprender e ser aprovado</em>.
+                            Desenvolvido com foco em alta usabilidade, clareza pedagógica e carregamento ágil, o Vest+ oferece navegação intuitiva tanto no computador quanto no celular para que seu foco seja único: <em>aprender, praticar e conquistar a aprovação</em>.
                         </p>
                     </div>
                 </div>
@@ -347,11 +352,45 @@ $equipeIntegrantes = [
 
             <div class="row row-cols-1 row-cols-md-3 g-4">
                 <?php foreach ($disciplinas as $d): ?>
+                    <?php
+                        $nomeLower = mb_strtolower((string) $d['nome'], 'UTF-8');
+                        if (str_contains($nomeLower, 'educa')) {
+                            $dIcon = 'bi-activity';
+                        } elseif (str_contains($nomeLower, 'matem')) {
+                            $dIcon = 'bi-calculator-fill';
+                        } elseif (str_contains($nomeLower, 'físic') || str_contains($nomeLower, 'fisic')) {
+                            $dIcon = 'bi-lightning-charge-fill';
+                        } elseif (str_contains($nomeLower, 'biolog')) {
+                            $dIcon = 'bi-flower1';
+                        } elseif (str_contains($nomeLower, 'quím') || str_contains($nomeLower, 'quim')) {
+                            $dIcon = 'bi-droplet-fill';
+                        } elseif (str_contains($nomeLower, 'histór') || str_contains($nomeLower, 'histor')) {
+                            $dIcon = 'bi-hourglass-split';
+                        } elseif (str_contains($nomeLower, 'geograf')) {
+                            $dIcon = 'bi-globe-americas';
+                        } elseif (str_contains($nomeLower, 'sociolog')) {
+                            $dIcon = 'bi-people-fill';
+                        } elseif (str_contains($nomeLower, 'filosof')) {
+                            $dIcon = 'bi-lightbulb-fill';
+                        } elseif (str_contains($nomeLower, 'portugu') || str_contains($nomeLower, 'língua')) {
+                            $dIcon = 'bi-chat-square-text-fill';
+                        } elseif (str_contains($nomeLower, 'literat')) {
+                            $dIcon = 'bi-bookmark-heart-fill';
+                        } elseif (str_contains($nomeLower, 'arte')) {
+                            $dIcon = 'bi-palette-fill';
+                        } elseif (str_contains($nomeLower, 'ingl')) {
+                            $dIcon = 'bi-translate';
+                        } elseif (str_contains($nomeLower, 'espanh')) {
+                            $dIcon = 'bi-globe2';
+                        } else {
+                            $dIcon = 'bi-book-half';
+                        }
+                    ?>
                     <div class="col">
                         <div class="card card-custom h-100 p-4 hover-lift">
                             <div class="d-flex align-items-center gap-3 mb-3">
                                 <div class="rounded-3 p-3 bg-success bg-opacity-10 text-success fs-4">
-                                    <i class="bi bi-book-half"></i>
+                                    <i class="bi <?= $dIcon ?>"></i>
                                 </div>
                                 <div>
                                     <h5 class="fw-bold mb-0 text-dark"><?= Helper::e((string) $d['nome']) ?></h5>
@@ -375,22 +414,22 @@ $equipeIntegrantes = [
         <div class="container px-lg-4 py-4">
             <div class="text-center max-w-xl mx-auto mb-5">
                 <span class="text-uppercase fw-bold text-success small tracking-wide">Quem Faz Acontecer</span>
-                <h2 class="display-6 fw-bold text-dark mt-2 mb-3">Equipe de Desenvolvimento & Criação</h2>
+                <h2 class="display-6 fw-bold text-dark mt-2 mb-3">Equipe do Projeto</h2>
                 <p class="text-muted col-lg-8 mx-auto">
-                    O projeto Vest+ é fruto do trabalho colaborativo e integrado de seus idealizadores, unindo pesquisa, engenharia de software e compromisso com a democratização do conhecimento.
+                    O projeto Vest+ é fruto do trabalho colaborativo e integrado de seus idealizadores, unidos pelo compromisso com a democratização do conhecimento e a excelência educacional.
                 </p>
             </div>
 
             <!-- Grid Igualitário de Integrantes da Equipe -->
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4 justify-content-center">
+            <div class="row row-cols-2 row-cols-sm-3 row-cols-lg-6 g-3 g-lg-4 justify-content-center">
                 <?php foreach ($equipeIntegrantes as $membro): ?>
                     <div class="col">
                         <div class="team-card-minimal">
                             <div class="team-avatar-circle">
                                 <?= Helper::e($membro['iniciais']) ?>
                             </div>
-                            <h5 class="fw-bold text-dark mb-1"><?= Helper::e($membro['nome']) ?></h5>
-                            <span class="badge badge-discipline rounded-pill small px-3 py-1 mt-2">
+                            <h5 class="fw-bold text-dark mb-1 fs-6"><?= Helper::e($membro['nome']) ?></h5>
+                            <span class="badge badge-discipline rounded-pill small px-2 py-1 mt-2">
                                 Equipe Vest+
                             </span>
                         </div>
@@ -434,10 +473,10 @@ $equipeIntegrantes = [
                         <span class="fs-4 fw-bold text-white">Vest+</span>
                     </div>
                     <p class="text-secondary small lh-base mb-3" style="color: #94a3b8 !important;">
-                        Plataforma aberta de CMS e Banco de Questões voltada para vestibulandos e candidatos do ENEM. Desenvolvida em PHP 8.2+ puro com Bootstrap 5 e Vanilla JavaScript.
+                        Plataforma educacional gratuita e aberta voltada para vestibulandos e candidatos do ENEM, reunindo resumos estruturados e banco de questões com gabarito comentado.
                     </p>
                     <div class="text-secondary small" style="color: #64748b !important;">
-                        Licença MIT &bull; Código Aberto no <a href="https://github.com/DuilioBSegura/VestMais-Project" class="text-light text-decoration-underline" target="_blank">GitHub</a>
+                        Licença MIT &bull; Acesso Aberto aos Estudantes
                     </div>
                 </div>
 
@@ -456,18 +495,16 @@ $equipeIntegrantes = [
                     <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
                         <li><a href="<?= Helper::url('/login') ?>" class="text-secondary">Acessar Painel (Login)</a></li>
                         <li><a href="<?= Helper::url('/cadastro') ?>" class="text-secondary">Criar Conta de Aluno</a></li>
-                        <li><a href="https://github.com/DuilioBSegura/VestMais-Project" class="text-secondary" target="_blank">Repositório Oficial</a></li>
                     </ul>
                 </div>
             </div>
 
             <div class="pt-4 mt-4 border-top border-secondary border-opacity-25 text-center text-secondary small" style="color: #64748b !important;">
-                &copy; <?= date('Y') ?> Vest+ Platform. Todos os direitos reservados. Foco na aprovação e no conhecimento livre.
+                &copy; <?= date('Y') ?> Vest+ - Plataforma Gratuita de Estudos para Vestibulares
             </div>
         </div>
     </footer>
 
-    <!-- Bootstrap 5 Bundle JS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

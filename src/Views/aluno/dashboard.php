@@ -73,14 +73,36 @@ require dirname(__DIR__) . '/layout/header.php';
             $totalArtigos = (int) ($disc['total_artigos'] ?? 0);
             $totalQuestoes = (int) ($disc['total_questoes'] ?? 0);
 
-            // Ícones contextuais
+            // Ícones contextuais para todas as 14 disciplinas oficiais
             $nomeLower = mb_strtolower((string) $disc['nome'], 'UTF-8');
-            if (str_contains($nomeLower, 'matem')) {
+            if (str_contains($nomeLower, 'educa')) {
+                $icon = 'bi-activity';
+            } elseif (str_contains($nomeLower, 'matem')) {
                 $icon = 'bi-calculator-fill';
             } elseif (str_contains($nomeLower, 'físic') || str_contains($nomeLower, 'fisic')) {
                 $icon = 'bi-lightning-charge-fill';
             } elseif (str_contains($nomeLower, 'biolog')) {
                 $icon = 'bi-flower1';
+            } elseif (str_contains($nomeLower, 'quím') || str_contains($nomeLower, 'quim')) {
+                $icon = 'bi-droplet-fill';
+            } elseif (str_contains($nomeLower, 'histór') || str_contains($nomeLower, 'histor')) {
+                $icon = 'bi-hourglass-split';
+            } elseif (str_contains($nomeLower, 'geograf')) {
+                $icon = 'bi-globe-americas';
+            } elseif (str_contains($nomeLower, 'sociolog')) {
+                $icon = 'bi-people-fill';
+            } elseif (str_contains($nomeLower, 'filosof')) {
+                $icon = 'bi-lightbulb-fill';
+            } elseif (str_contains($nomeLower, 'portugu') || str_contains($nomeLower, 'língua')) {
+                $icon = 'bi-chat-square-text-fill';
+            } elseif (str_contains($nomeLower, 'literat')) {
+                $icon = 'bi-bookmark-heart-fill';
+            } elseif (str_contains($nomeLower, 'arte')) {
+                $icon = 'bi-palette-fill';
+            } elseif (str_contains($nomeLower, 'ingl')) {
+                $icon = 'bi-translate';
+            } elseif (str_contains($nomeLower, 'espanh')) {
+                $icon = 'bi-globe2';
             } else {
                 $icon = 'bi-journal-bookmark-fill';
             }

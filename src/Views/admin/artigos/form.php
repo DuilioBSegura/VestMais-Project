@@ -171,7 +171,7 @@ $actionUrl = $isEdit
     </div>
 </div>
 
-<!-- Vanilla JS para Geração Automática de Slug -->
+<!-- Geração Automática de Slug -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const tituloInput = document.getElementById('titulo');

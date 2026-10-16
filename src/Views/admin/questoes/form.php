@@ -202,7 +202,7 @@ $respostaCorreta = strtoupper((string) ($questao['resposta_correta'] ?? 'A'));
     </div>
 </div>
 
-<!-- Vanilla JS para destaque visual da alternativa selecionada como gabarito -->
+<!-- Destaque visual da alternativa selecionada como gabarito -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const radioButtons = document.querySelectorAll('.radio-gabarito');

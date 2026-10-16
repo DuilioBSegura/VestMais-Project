@@ -133,7 +133,7 @@ require dirname(__DIR__, 2) . '/layout/header.php';
     </div>
 </div>
 
-<!-- Modal para Visualização Completa da Questão (Vanilla JS) -->
+<!-- Modal para Visualização Completa da Questão -->
 <div class="modal fade" id="viewQuestionModal" tabindex="-1" aria-labelledby="viewQuestionModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content border-0 shadow">
@@ -191,7 +191,7 @@ require dirname(__DIR__, 2) . '/layout/header.php';
     </div>
 </div>
 
-<!-- Vanilla JS para Preenchimento do Modal de Visualização da Questão -->
+<!-- Preenchimento do Modal de Visualização da Questão -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const viewButtons = document.querySelectorAll('.btn-view-question');

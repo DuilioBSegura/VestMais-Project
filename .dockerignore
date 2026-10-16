@@ -1,0 +1,12 @@
+.git
+.github
+.gitignore
+.env
+.env.*
+!.env.example
+backups/
+tests/
+docs/
+*.md
+.idea/
+.vscode/

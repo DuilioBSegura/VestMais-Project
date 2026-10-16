@@ -12,11 +12,8 @@ use App\Core\Helper;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= Helper::e($pageTitle ?? 'Acesse sua Conta - Vest+') ?></title>
-    <!-- Bootstrap 5.3 CSS via CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <!-- Bootstrap Icons via CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- Design System Global (Verde Esmeralda / Menta) -->
     <link rel="stylesheet" href="<?= Helper::url('/css/style.css') ?>">
     <style>
         body {
@@ -102,21 +99,8 @@ use App\Core\Helper;
                 </a>
             </div>
 
-            <!-- Preenchimento Rápido para Avaliação -->
-            <div class="mt-4 pt-3 border-top">
-                <div class="small fw-semibold text-secondary text-center mb-2">Acesso Rápido para Avaliação / Demonstração:</div>
-                <div class="d-grid gap-2">
-                    <button type="button" id="btnFillAdmin" class="btn btn-outline-secondary btn-sm d-flex align-items-center justify-content-center gap-2">
-                        <i class="bi bi-shield-lock-fill"></i> Administrador (duiliobsegura@gmail.com)
-                    </button>
-                    <button type="button" id="btnFillAluno" class="btn btn-outline-success btn-sm d-flex align-items-center justify-content-center gap-2">
-                        <i class="bi bi-person-fill"></i> Aluno (estudante@vestmais.com.br)
-                    </button>
-                </div>
-            </div>
-
             <!-- Link de Retorno à Landing Page -->
-            <div class="text-center mt-3">
+            <div class="text-center mt-4 pt-3 border-top">
                 <a href="<?= Helper::url('/') ?>" class="small text-muted text-decoration-none">
                     <i class="bi bi-arrow-left me-1"></i> Voltar para a Página Inicial
                 </a>
@@ -124,20 +108,6 @@ use App\Core\Helper;
         </div>
     </div>
 
-    <!-- Bootstrap 5 Bundle JS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Vanilla JS para preenchimento rápido -->
-    <script>
-        document.getElementById('btnFillAdmin')?.addEventListener('click', function () {
-            document.getElementById('email').value = 'duiliobsegura@gmail.com';
-            document.getElementById('senha').value = 'AdminVest@2026';
-        });
-
-        document.getElementById('btnFillAluno')?.addEventListener('click', function () {
-            document.getElementById('email').value = 'estudante@vestmais.com.br';
-            document.getElementById('senha').value = 'AlunoVest@2026';
-        });
-    </script>
 </body>
 </html>

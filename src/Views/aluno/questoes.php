@@ -165,7 +165,7 @@ require dirname(__DIR__) . '/layout/header.php';
                         </button>
                     </div>
 
-                    <!-- Caixa de Feedback Assíncrono (revelada via Vanilla JS) -->
+                    <!-- Caixa de Feedback e Resolução -->
                     <div class="feedback-container d-none mt-4 pt-3 border-top">
                         <div class="alerta-resultado alert mb-3" role="alert">
                             <div class="titulo-resultado d-flex align-items-center mb-1"></div>
@@ -186,7 +186,7 @@ require dirname(__DIR__) . '/layout/header.php';
     </div>
 <?php endif; ?>
 
-<!-- Script Vanilla JS do Motor de Resolução Assíncrona -->
+<!-- Resolução Assíncrona de Questões -->
 <script src="<?= Helper::url('/js/questoes.js') ?>"></script>
 
 <?php

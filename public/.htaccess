@@ -1,6 +1,44 @@
+# ==============================================================================
+# PROJETO: Vest+ - Plataforma de CMS e Banco de Questões
+# ARQUIVO: public/.htaccess
+# FINALIDADE: Roteamento Front Controller e Políticas de Segurança HTTP
+# ==============================================================================
+
+# 1. Bloqueio estrito de listagem de diretórios
+Options -Indexes +FollowSymLinks
+
+# 2. Charset padrão UTF-8
+AddDefaultCharset UTF-8
+
+# 3. Cabeçalhos básicos e essenciais de segurança HTTP
+<IfModule mod_headers.c>
+    # Previne que o navegador tente adivinhar o tipo MIME do arquivo (MIME-sniffing)
+    Header always set X-Content-Type-Options "nosniff"
+    
+    # Proteção contra ataques de Clickjacking mantendo exibição em frames do mesmo domínio
+    Header always set X-Frame-Options "SAMEORIGIN"
+    
+    # Proteção contra ataques de Cross-Site Scripting (XSS)
+    Header always set X-XSS-Protection "1; mode=block"
+    
+    # Política de envio de cabeçalho Referer
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# 4. Front Controller / Redirecionamento de rotas
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    RewriteBase /
+
+    # Não reescreve arquivos reais existentes (CSS, JS, imagens, etc.)
     RewriteCond %{REQUEST_FILENAME} !-f
+    # Não reescreve diretórios físicos existentes
     RewriteCond %{REQUEST_FILENAME} !-d
+    # Direciona todas as requisições restantes para o Front Controller index.php
     RewriteRule ^ index.php [L,QSA]
 </IfModule>
+
+# 5. Bloqueio preventivo de arquivos ocultos e sensíveis
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>

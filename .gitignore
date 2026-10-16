@@ -1,0 +1,45 @@
+# ==============================================================================
+# Vest+ - Arquivo de Configuração do Git (.gitignore)
+# ==============================================================================
+
+# Arquivos de Ambiente e Credenciais Sensíveis
+.env
+.env.local
+.env.*.local
+*.env
+
+# Diretórios de Logs e Cache
+logs/
+*.log
+cache/
+tmp/
+temp/
+
+# Arquivos de Sistema Operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# Configurações de IDEs e Editores
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# Dependências de Pacotes (caso venham a ser utilizados)
+/vendor/
+/node_modules/
+
+# Backups e Dumps Locais
+*.bak
+*.backup
+*.sql.gz
+database/backup_*.sql
+
+# Arquivos de Testes e Relatórios de Cobertura
+.phpunit.result.cache
+coverage/

@@ -1,0 +1,84 @@
+# ==============================================================================
+# PROJETO: Vest+ - Plataforma de CMS e Banco de Questões
+# ARQUIVO: docker-compose.yml
+# FINALIDADE: Orquestração de containers de produção (App PHP 8.3 + MariaDB 11)
+# ==============================================================================
+
+services:
+  # ----------------------------------------------------------------------------
+  # Serviço da Aplicação Web (PHP 8.3 + Apache)
+  # ----------------------------------------------------------------------------
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vestplus_app
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8080}:80"
+    env_file:
+      - .env
+    environment:
+      - APP_ENV=${APP_ENV:-production}
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_NAME=${DB_NAME:-vestplus}
+      - DB_USER=${DB_USER:-vestuser}
+      - DB_PASS=${DB_PASS:-senha_forte_aqui}
+      - DB_CHARSET=${DB_CHARSET:-utf8mb4}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - vestmais_net
+
+  # ----------------------------------------------------------------------------
+  # Serviço do Banco de Dados Relacional (MariaDB 11)
+  # ----------------------------------------------------------------------------
+  db:
+    image: mariadb:11
+    container_name: vestplus_db
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASS:-root_senha_segura_vestmais}
+      MARIADB_DATABASE: ${DB_NAME:-vestplus}
+      MARIADB_USER: ${DB_USER:-vestuser}
+      MARIADB_PASSWORD: ${DB_PASS:-senha_forte_aqui}
+      MARIADB_AUTO_UPGRADE: "1"
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --character_set_filesystem=utf8mb4
+    volumes:
+      # Persistência total dos dados do banco
+      - db_data:/var/lib/mysql
+      # Carga inicial idempotente do banco na primeira subida
+      - ./database/backup_pre_apresentacao.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
+    # Healthcheck para sincronização segura com o container app
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -h localhost -uroot -p$${MARIADB_ROOT_PASSWORD} || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    networks:
+      - vestmais_net
+    # ZERO EXPOSIÇÃO PÚBLICA:
+    # A porta 3306 NÃO é mapeada para o host ('ports'), sendo acessível apenas internamente via 'vestmais_net'
+    expose:
+      - "3306"
+
+# ------------------------------------------------------------------------------
+# Volumes Nomeados para Persistência
+# ------------------------------------------------------------------------------
+volumes:
+  db_data:
+    name: vestplus_db_data
+
+# ------------------------------------------------------------------------------
+# Rede Interna Isolada
+# ------------------------------------------------------------------------------
+networks:
+  vestmais_net:
+    name: vestmais_net
+    driver: bridge

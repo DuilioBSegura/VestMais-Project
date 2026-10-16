@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 /**
  * Vest+ Platform - Front Controller e Roteador Central
- * Plataforma Open-Access de CMS Educacional e Banco de Questões
+ * Plataforma Educacional de Questões e Conteúdos para Vestibulares
  */
+
+if (!headers_sent()) {
+    header_remove('X-Powered-By');
+}
 
 require_once dirname(__DIR__) . '/config/config.php';
 require_once dirname(__DIR__) . '/config/database.php';

@@ -6,19 +6,19 @@ use App\Core\Csrf;
 ?>
     </main>
 
-    <!-- Rodapé Administrativo -->
+    <!-- Rodapé da Aplicação -->
     <footer class="bg-white border-top py-3 mt-auto">
         <div class="container-fluid px-lg-4 d-flex flex-column flex-sm-row justify-content-between align-items-center text-muted small">
             <div>
-                <strong>Vest+ Plataforma Educacional</strong> &bull; Sprint 2: Motor de Conteúdo (CMS e Questões)
+                &copy; <?= date('Y') ?> Vest+ - Plataforma Gratuita de Estudos para Vestibulares
             </div>
             <div>
-                PHP <?= htmlspecialchars(PHP_VERSION, ENT_QUOTES, 'UTF-8') ?> &bull; Bootstrap 5 &bull; MariaDB/MySQL
+                Ambiente de Estudos &bull; Todos os direitos reservados
             </div>
         </div>
     </footer>
 
-    <!-- Modal Global de Confirmação de Exclusão (Vanilla JS + Bootstrap 5) -->
+    <!-- Modal Global de Confirmação de Exclusão -->
     <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow">
@@ -50,10 +50,9 @@ use App\Core\Csrf;
         </div>
     </div>
 
-    <!-- Bootstrap 5 Bundle JS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-    <!-- Script Vanilla JS para Controle de Modais de Exclusão -->
+    <!-- Controle de Modais de Exclusão -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const deleteModalEl = document.getElementById('deleteConfirmModal');
