@@ -7,6 +7,9 @@ declare(strict_types=1);
  * Plataforma Open-Access de CMS Educacional e Banco de Questões
  */
 
+// Oculta assinatura do PHP nos cabeçalhos HTTP
+header_remove('X-Powered-By');
+
 require_once dirname(__DIR__) . '/config/config.php';
 require_once dirname(__DIR__) . '/config/database.php';
 

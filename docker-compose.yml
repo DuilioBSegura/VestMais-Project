@@ -1,0 +1,72 @@
+# ==============================================================================
+# Vest+ Platform - Orquestração Docker Compose para Deploy em Produção (VPS)
+# ==============================================================================
+
+version: '3.8'
+
+services:
+  # ----------------------------------------------------------------------------
+  # Serviço da Aplicação Web (PHP 8.3 + Apache Otimizado)
+  # ----------------------------------------------------------------------------
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vestmais_app
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8080}:80"
+    env_file:
+      - .env
+    environment:
+      - APP_ENV=${APP_ENV:-production}
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_NAME=${DB_NAME:-vestplus}
+      - DB_USER=${DB_USER:-vestuser}
+      - DB_PASS=${DB_PASS:-senha_forte_aqui}
+      - DB_CHARSET=utf8mb4
+    depends_on:
+      - db
+    networks:
+      - vestmais_net
+
+  # ----------------------------------------------------------------------------
+  # Serviço de Banco de Dados Relacional (MariaDB 11)
+  # ----------------------------------------------------------------------------
+  db:
+    image: mariadb:11
+    container_name: vestmais_db
+    restart: unless-stopped
+    command:
+      - mysqld
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-super_root_password_segura}
+      MYSQL_DATABASE: ${DB_NAME:-vestplus}
+      MYSQL_USER: ${DB_USER:-vestuser}
+      MYSQL_PASSWORD: ${DB_PASS:-senha_forte_aqui}
+    volumes:
+      # Volume de persistência total dos dados do banco
+      - db_data:/var/lib/mysql
+      # Script de inicialização automática idempotente no primeiro deploy
+      - ./database/docker-init:/docker-entrypoint-initdb.d:ro
+    # ZERO EXPOSIÇÃO PÚBLICA:
+    # A porta 3306 NÃO é mapeada para o host/internet, garantindo isolamento estrito.
+    networks:
+      - vestmais_net
+
+# ------------------------------------------------------------------------------
+# Volumes Nomeados para Persistência
+# ------------------------------------------------------------------------------
+volumes:
+  db_data:
+    driver: local
+
+# ------------------------------------------------------------------------------
+# Rede Interna Isolada
+# ------------------------------------------------------------------------------
+networks:
+  vestmais_net:
+    driver: bridge

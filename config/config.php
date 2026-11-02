@@ -6,21 +6,66 @@ declare(strict_types=1);
  * Vest+ Platform - Configurações Gerais da Aplicação
  *
  * Define as constantes básicas do ambiente e credenciais de banco de dados.
- * Suporta variáveis de ambiente (getenv) com valores de fallback padrão para XAMPP/desenvolvimento.
+ * Suporta leitura nativa de variáveis de ambiente (.env, getenv, $_ENV e Docker).
  */
 
-// Ambiente e Aplicação
-define('APP_NAME', 'Vest+');
+// Blindagem de Produção: Desativa exibição de erros na tela e registra em log interno
+ini_set('display_errors', '0');
+ini_set('display_startup_errors', '0');
+error_reporting(E_ALL);
+
+// Remove a assinatura do PHP nos cabeçalhos HTTP
+header_remove('X-Powered-By');
+
+// Carregador simples de .env (caso o arquivo exista na raiz e não tenha sido pré-carregado pelo Docker)
+$envFile = dirname(__DIR__) . '/.env';
+if (file_exists($envFile) && is_readable($envFile)) {
+    $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [];
+    foreach ($lines as $line) {
+        $line = trim($line);
+        if ($line === '' || str_starts_with($line, '#')) {
+            continue;
+        }
+        if (str_contains($line, '=')) {
+            [$k, $v] = explode('=', $line, 2);
+            $k = trim($k);
+            $v = trim($v, " \t\n\r\0\x0B\"'");
+            if (getenv($k) === false) {
+                putenv("{$k}={$v}");
+                $_ENV[$k] = $v;
+                $_SERVER[$k] = $v;
+            }
+        }
+    }
+}
+
+// Helper local para resolver variáveis de ambiente com fallback
+$resolveEnv = static function (string $key, string $default): string {
+    $val = getenv($key);
+    if ($val !== false && $val !== '') {
+        return (string) $val;
+    }
+    if (isset($_ENV[$key]) && (string) $_ENV[$key] !== '') {
+        return (string) $_ENV[$key];
+    }
+    if (isset($_SERVER[$key]) && (string) $_SERVER[$key] !== '') {
+        return (string) $_SERVER[$key];
+    }
+    return $default;
+};
+
+// Constantes de Ambiente e Aplicação
+define('APP_NAME', $resolveEnv('APP_NAME', 'Vest+'));
 define('APP_VERSION', '1.0.0');
-define('APP_ENV', getenv('APP_ENV') ?: 'development');
+define('APP_ENV', $resolveEnv('APP_ENV', 'production'));
 
 // Parâmetros de Conexão com o Banco de Dados
-define('DB_HOST', getenv('DB_HOST') ?: '127.0.0.1');
-define('DB_PORT', getenv('DB_PORT') ?: '3306');
-define('DB_NAME', getenv('DB_NAME') ?: 'vestplus');
-define('DB_USER', getenv('DB_USER') ?: 'root');
-define('DB_PASS', getenv('DB_PASS') !== false ? (string) getenv('DB_PASS') : '');
-define('DB_CHARSET', getenv('DB_CHARSET') ?: 'utf8mb4');
+define('DB_HOST', $resolveEnv('DB_HOST', '127.0.0.1'));
+define('DB_PORT', $resolveEnv('DB_PORT', '3306'));
+define('DB_NAME', $resolveEnv('DB_NAME', 'vestplus'));
+define('DB_USER', $resolveEnv('DB_USER', 'root'));
+define('DB_PASS', $resolveEnv('DB_PASS', ''));
+define('DB_CHARSET', $resolveEnv('DB_CHARSET', 'utf8mb4'));
 
 // Autoload simples sem Composer (PSR-4 básico para Config e App)
 spl_autoload_register(function (string $class): void {

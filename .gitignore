@@ -1,0 +1,47 @@
+# ==============================================================================
+# Vest+ Platform - .gitignore de Produção
+# ==============================================================================
+
+# Variáveis de Ambiente e Credenciais Sensíveis
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+
+# Backups e Dumps com Dados de Banco
+*.sql.gz
+*.sql.dump
+*.dump
+backups/
+database/backups/
+scripts/backups/
+database/*backup*.sql
+
+# Logs e Arquivos Temporários
+*.log
+logs/
+temp/
+tmp/
+cache/
+*.tmp
+.phpunit.result.cache
+
+# Arquivos de Sistema e SO
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs e Editores
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Dependências
+vendor/
+node_modules/

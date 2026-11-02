@@ -1,6 +1,49 @@
+# ==============================================================================
+# Vest+ Platform - Roteamento Front Controller & Segurança (.htaccess)
+# ==============================================================================
+
+# 1. Bloqueia a listagem pública de diretórios e permite seguir links simbólicos
+Options -Indexes +FollowSymLinks
+
+# 2. Define charset padrão de transmissão
+AddDefaultCharset UTF-8
+
+# 3. Cabeçalhos Básicos de Segurança HTTP (requer mod_headers ativo)
+<IfModule mod_headers.c>
+    # Previne sniffing de MIME type
+    Header always set X-Content-Type-Options "nosniff"
+
+    # Proteção contra Clickjacking em iframes
+    Header always set X-Frame-Options "SAMEORIGIN"
+
+    # Proteção contra Cross-Site Scripting (XSS) para navegadores legados
+    Header always set X-XSS-Protection "1; mode=block"
+
+    # Controle de vazamento de política de referenciador
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# 4. Roteamento Front Controller (requer mod_rewrite ativo)
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteBase /
+
+    # Se o arquivo ou diretório físico existir (ex: /css, /js, imagens), serve diretamente
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Redireciona todas as demais requisições para o Front Controller index.php
     RewriteRule ^ index.php [L,QSA]
 </IfModule>
+
+# 5. Bloqueio de arquivos ocultos e sensíveis (.env, .git, etc.)
+<FilesMatch "^\.">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
