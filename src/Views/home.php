@@ -47,15 +47,16 @@ $equipeIntegrantes = [
     <!-- Estilos da Aplicação -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="<?= Helper::url('/css/style.css?v=1.1.2') ?>">
+    <link rel="stylesheet" href="<?= Helper::url('/css/style.css?v=1.1.3') ?>">
 </head>
 <body class="bg-white">
 
     <!-- ==============================================================================
-         NAVBAR PÚBLICA (MINIMALISTA, CLEAN & ALTA VISIBILIDADE)
+         NAVBAR PÚBLICA (MINIMALISTA, CLEAN & TOTALMENTE RESPONSIVA)
          ============================================================================== -->
-    <nav class="navbar navbar-expand-lg navbar-landing py-3 sticky-top">
-        <div class="container px-lg-4">
+    <nav class="navbar navbar-expand-lg navbar-landing py-2 py-lg-3 sticky-top">
+        <div class="container px-3 px-lg-4">
+            <!-- Brand / Logotipo -->
             <a class="navbar-brand d-flex align-items-center gap-2" href="<?= Helper::url('/') ?>">
                 <div class="d-inline-flex align-items-center justify-content-center rounded-3 bg-success bg-opacity-10 p-2" style="border: 1px solid rgba(5, 150, 105, 0.2);">
                     <i class="bi bi-mortarboard-fill text-success fs-5"></i>
@@ -63,8 +64,25 @@ $equipeIntegrantes = [
                 <span class="fs-4 fw-bold text-dark tracking-tight">Vest<span class="text-success">+</span></span>
             </a>
 
-            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
-                <ul class="navbar-nav d-flex flex-row align-items-center mb-0 gap-1 gap-lg-2">
+            <!-- Ações Rápidas no Mobile & Botão Hambúrguer -->
+            <div class="d-flex align-items-center gap-2 d-lg-none">
+                <?php if ($currentUser): ?>
+                    <a href="<?= $dashboardUrl ?>" class="btn btn-sm btn-primary btn-pill px-3">
+                        Painel
+                    </a>
+                <?php else: ?>
+                    <a href="<?= Helper::url('/login') ?>" class="btn btn-sm btn-outline-secondary btn-pill px-3">
+                        Entrar
+                    </a>
+                <?php endif; ?>
+                <button class="navbar-toggler border-0 shadow-none p-1" type="button" data-bs-toggle="collapse" data-bs-target="#landingNavbar" aria-controls="landingNavbar" aria-expanded="false" aria-label="Menu de Navegação">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+
+            <!-- Links e Ações Colapsáveis (Desktop & Menu Mobile) -->
+            <div class="collapse navbar-collapse" id="landingNavbar">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-1 gap-lg-2 py-2 py-lg-0 text-center text-lg-start">
                     <li class="nav-item">
                         <a class="nav-link" href="#recursos">Recursos</a>
                     </li>
@@ -79,19 +97,19 @@ $equipeIntegrantes = [
                     </li>
                 </ul>
 
-                <div class="d-flex align-items-center gap-2 ms-auto ms-lg-3">
+                <div class="d-flex align-items-center gap-2 pt-3 pt-lg-0 border-top border-lg-0 flex-column flex-lg-row">
                     <?php if ($currentUser): ?>
-                        <a href="<?= $dashboardUrl ?>" class="btn btn-primary btn-pill d-inline-flex align-items-center gap-2 shadow-sm">
+                        <a href="<?= $dashboardUrl ?>" class="btn btn-primary btn-pill d-inline-flex align-items-center justify-content-center gap-2 shadow-sm w-100 w-lg-auto">
                             <i class="bi bi-speedometer2"></i> Meu Dashboard
                         </a>
-                        <a href="<?= Helper::url('/logout') ?>" class="btn btn-outline-secondary btn-sm rounded-circle p-2" title="Encerrar sessão">
+                        <a href="<?= Helper::url('/logout') ?>" class="btn btn-outline-secondary btn-sm rounded-circle p-2 d-none d-lg-inline-flex" title="Encerrar sessão">
                             <i class="bi bi-box-arrow-right"></i>
                         </a>
                     <?php else: ?>
-                        <a href="<?= Helper::url('/login') ?>" class="btn-nav-login">
+                        <a href="<?= Helper::url('/login') ?>" class="btn-nav-login d-none d-lg-inline-flex">
                             <i class="bi bi-box-arrow-in-right"></i> Entrar
                         </a>
-                        <a href="<?= Helper::url('/cadastro') ?>" class="btn-nav-signup">
+                        <a href="<?= Helper::url('/cadastro') ?>" class="btn-nav-signup w-100 w-lg-auto justify-content-center">
                             Começar Grátis <i class="bi bi-arrow-right"></i>
                         </a>
                     <?php endif; ?>
@@ -103,18 +121,18 @@ $equipeIntegrantes = [
     <!-- ==============================================================================
          HERO SECTION COM MOCKUP REALISTA DO COMPUTADOR / DASHBOARD
          ============================================================================== -->
-    <header class="py-5 pt-lg-6" style="background: radial-gradient(120% 80% at 50% 0%, #ecfdf5 0%, #f8fafc 40%, #ffffff 85%); border-bottom: 1px solid #f1f5f9;">
-        <div class="container px-lg-4 text-center">
+    <header class="py-4 py-lg-6" style="background: radial-gradient(120% 80% at 50% 0%, #ecfdf5 0%, #f8fafc 40%, #ffffff 85%); border-bottom: 1px solid #f1f5f9;">
+        <div class="container px-3 px-lg-4 text-center">
             
             <!-- Pill Badge Superior -->
-            <div class="d-inline-flex align-items-center gap-2 mb-4">
+            <div class="d-inline-flex align-items-center justify-content-center mb-3 mb-lg-4 px-2">
                 <span class="clean-pill-badge">
-                    <i class="bi bi-stars text-success"></i> Plataforma Aberta &bull; 100% Gratuita para o ENEM & Vestibulares
+                    <i class="bi bi-stars text-success"></i> <span>Plataforma Aberta &bull; 100% Gratuita para o ENEM & Vestibulares</span>
                 </span>
             </div>
 
             <!-- Título Principal & Subtítulo -->
-            <h1 class="display-4 fw-bold text-dark tracking-tight mb-3 mx-auto" style="max-width: 860px; line-height: 1.15;">
+            <h1 class="hero-title fw-bold text-dark tracking-tight mb-3 mx-auto" style="max-width: 860px;">
                 O ecossistema definitivo para sua aprovação no vestibular.
             </h1>
             <p class="lead text-secondary mx-auto mb-4" style="max-width: 680px; font-size: 1.15rem; line-height: 1.6;">
@@ -122,26 +140,26 @@ $equipeIntegrantes = [
             </p>
 
             <!-- Chamadas para Ação (CTAs) -->
-            <div class="d-flex justify-content-center align-items-center gap-3 flex-wrap mb-4">
+            <div class="d-flex justify-content-center align-items-center gap-2 gap-sm-3 flex-column flex-sm-row mb-4 w-100" style="max-width: 480px; margin: 0 auto;">
                 <?php if ($currentUser): ?>
-                    <a href="<?= $dashboardUrl ?>" class="btn btn-primary btn-pill btn-lg px-4 shadow-sm d-inline-flex align-items-center gap-2">
+                    <a href="<?= $dashboardUrl ?>" class="btn btn-primary btn-pill btn-lg px-4 shadow-sm w-100 w-sm-auto d-inline-flex align-items-center justify-content-center gap-2">
                         <i class="bi bi-arrow-right-circle-fill"></i> Continuar Meus Estudos
                     </a>
                 <?php else: ?>
-                    <a href="<?= Helper::url('/cadastro') ?>" class="btn btn-primary btn-pill btn-lg px-4 shadow-sm d-inline-flex align-items-center gap-2">
+                    <a href="<?= Helper::url('/cadastro') ?>" class="btn btn-primary btn-pill btn-lg px-4 shadow-sm w-100 w-sm-auto d-inline-flex align-items-center justify-content-center gap-2">
                         Criar Conta Gratuita <i class="bi bi-arrow-right"></i>
                     </a>
-                    <a href="<?= Helper::url('/login') ?>" class="btn btn-outline-secondary btn-pill btn-lg px-4">
+                    <a href="<?= Helper::url('/login') ?>" class="btn btn-outline-secondary btn-pill btn-lg px-4 w-100 w-sm-auto justify-content-center">
                         Acessar Plataforma
                     </a>
                 <?php endif; ?>
             </div>
 
             <!-- Micro-confiança -->
-            <div class="d-flex align-items-center justify-content-center gap-4 text-muted small mb-5 flex-wrap">
+            <div class="d-flex align-items-center justify-content-center gap-2 gap-sm-4 text-muted small mb-4 mb-lg-5 flex-wrap">
                 <span class="d-flex align-items-center gap-1"><i class="bi bi-shield-check text-success"></i> Sem mensalidades</span>
                 <span class="d-flex align-items-center gap-1"><i class="bi bi-lightning-charge text-success"></i> Acesso imediato</span>
-                <span class="d-flex align-items-center gap-1"><i class="bi bi-mortarboard text-success"></i> Foco no ENEM & Vestibulares SP</span>
+                <span class="d-flex align-items-center gap-1"><i class="bi bi-mortarboard text-success"></i> Foco no ENEM & Vestibulares</span>
             </div>
 
             <!-- ==============================================================================
@@ -557,17 +575,17 @@ $equipeIntegrantes = [
          CTA FINAL (CARD ELEGANTE EM GRADIENTE ESMERALDA)
          ============================================================================== -->
     <section class="py-5 py-lg-6 bg-white">
-        <div class="container px-lg-4">
-            <div class="p-5 rounded-4 text-white text-center shadow-lg" style="background: linear-gradient(135deg, #064e3b 0%, #059669 100%);">
+        <div class="container px-3 px-lg-4">
+            <div class="p-4 p-md-5 rounded-4 text-white text-center shadow-lg" style="background: linear-gradient(135deg, #064e3b 0%, #059669 100%);">
                 <h2 class="display-6 fw-bold mb-3 tracking-tight">Pronto para acelerar sua aprovação?</h2>
                 <p class="fs-5 text-light opacity-90 col-md-8 mx-auto mb-4" style="color: #ecfdf5 !important;">
                     Junte-se ao Vest+ agora mesmo. Crie sua conta gratuita em menos de 1 minuto e comece a estudar com foco nos resultados.
                 </p>
-                <div class="d-flex justify-content-center gap-3 flex-wrap">
-                    <a href="<?= Helper::url('/cadastro') ?>" class="btn btn-light btn-pill btn-lg px-4 py-3 fw-bold text-success shadow-sm">
+                <div class="d-flex justify-content-center gap-2 gap-sm-3 flex-column flex-sm-row mx-auto" style="max-width: 440px;">
+                    <a href="<?= Helper::url('/cadastro') ?>" class="btn btn-light btn-pill btn-lg px-4 py-3 fw-bold text-success shadow-sm w-100 w-sm-auto justify-content-center">
                         <i class="bi bi-person-plus-fill me-1"></i> Criar Conta Gratuita
                     </a>
-                    <a href="<?= Helper::url('/login') ?>" class="btn btn-outline-light btn-pill btn-lg px-4 py-3">
+                    <a href="<?= Helper::url('/login') ?>" class="btn btn-outline-light btn-pill btn-lg px-4 py-3 w-100 w-sm-auto justify-content-center">
                         Fazer Login
                     </a>
                 </div>
