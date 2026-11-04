@@ -2,8 +2,6 @@
 # Vest+ Platform - Orquestração Docker Compose para Deploy em Produção (VPS)
 # ==============================================================================
 
-version: '3.8'
-
 services:
   # ----------------------------------------------------------------------------
   # Serviço da Aplicação Web (PHP 8.3 + Apache Otimizado)
@@ -15,7 +13,7 @@ services:
     container_name: vestmais_app
     restart: unless-stopped
     ports:
-      - "127.0.0.1:${APP_PORT:-8080}:80"
+      - "${APP_PORT:-8080}:80"
     env_file:
       - .env
     environment:
@@ -57,34 +55,11 @@ services:
     networks:
       - vestmais_net
 
-  # ----------------------------------------------------------------------------
-  # Serviço de Reverse Proxy e Terminação SSL HTTPS Automática (Caddy)
-  # ----------------------------------------------------------------------------
-  caddy:
-    image: caddy:alpine
-    container_name: vestmais_caddy
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      - caddy_data:/data
-      - caddy_config:/config
-    depends_on:
-      - app
-    networks:
-      - vestmais_net
-
 # ------------------------------------------------------------------------------
 # Volumes Nomeados para Persistência
 # ------------------------------------------------------------------------------
 volumes:
   db_data:
-    driver: local
-  caddy_data:
-    driver: local
-  caddy_config:
     driver: local
 
 # ------------------------------------------------------------------------------
