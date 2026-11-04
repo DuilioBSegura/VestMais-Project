@@ -26,7 +26,6 @@ AddDefaultCharset UTF-8
 # 4. Roteamento Front Controller (requer mod_rewrite ativo)
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /
 
     # Se o arquivo ou diretório físico existir (ex: /css, /js, imagens), serve diretamente
     RewriteCond %{REQUEST_FILENAME} -f [OR]

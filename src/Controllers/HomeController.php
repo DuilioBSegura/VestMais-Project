@@ -6,6 +6,7 @@ namespace App\Controllers;
 
 use App\Models\Artigo;
 use App\Models\Disciplina;
+use App\Models\Medalha;
 use App\Models\Questao;
 
 /**
@@ -21,12 +22,14 @@ final class HomeController extends BaseController
         $disciplinas = Disciplina::getAll();
         $totalArtigos = count(Artigo::getAll());
         $totalQuestoes = count(Questao::getAll());
+        $totalMedalhas = Medalha::countTotal();
 
         $this->render('home', [
             'pageTitle'     => 'Vest+ | Preparação Gratuita para o ENEM e Vestibulares',
             'disciplinas'   => $disciplinas,
             'totalArtigos'  => $totalArtigos,
             'totalQuestoes' => $totalQuestoes,
+            'totalMedalhas' => $totalMedalhas,
         ]);
     }
 }

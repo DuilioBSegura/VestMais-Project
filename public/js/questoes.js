@@ -142,6 +142,46 @@ document.addEventListener('DOMContentLoaded', function () {
                 feedbackContainer.setAttribute('aria-live', 'polite');
                 feedbackContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
+                // Notificação de Conquistas / Medalhas Desbloqueadas
+                if (data.novas_medalhas && Array.isArray(data.novas_medalhas) && data.novas_medalhas.length > 0) {
+                    data.novas_medalhas.forEach(function (med) {
+                        let toastContainer = document.getElementById('medalhasToastContainer');
+                        if (!toastContainer) {
+                            toastContainer = document.createElement('div');
+                            toastContainer.id = 'medalhasToastContainer';
+                            toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+                            toastContainer.style.zIndex = '1090';
+                            document.body.appendChild(toastContainer);
+                        }
+
+                        const toastEl = document.createElement('div');
+                        toastEl.className = 'toast align-items-center text-white bg-dark border border-warning border-opacity-50 shadow-lg show mb-2';
+                        toastEl.setAttribute('role', 'alert');
+                        toastEl.setAttribute('aria-live', 'assertive');
+                        toastEl.setAttribute('aria-atomic', 'true');
+                        toastEl.innerHTML = `
+                            <div class="d-flex p-3 align-items-center gap-3">
+                                <div class="rounded-circle bg-warning bg-opacity-20 p-2 text-warning fs-3 flex-shrink-0 d-flex align-items-center justify-content-center" style="width: 52px; height: 52px;">
+                                    <i class="bi ${med.icone || 'bi-trophy-fill'}"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="small text-warning fw-bold text-uppercase">🎉 Nova Conquista Desbloqueada!</div>
+                                    <h6 class="mb-1 fw-bold text-white">${med.titulo}</h6>
+                                    <p class="mb-0 small text-light opacity-75">${med.descricao}</p>
+                                </div>
+                                <button type="button" class="btn-close btn-close-white me-1 m-auto" data-bs-dismiss="toast" aria-label="Fechar" onclick="this.closest('.toast').remove()"></button>
+                            </div>
+                        `;
+                        toastContainer.appendChild(toastEl);
+
+                        setTimeout(function () {
+                            if (toastEl && toastEl.parentElement) {
+                                toastEl.remove();
+                            }
+                        }, 7500);
+                    });
+                }
+
                 // Atualiza o botão para indicar questão concluída
                 submitBtn.disabled = true;
                 submitBtn.removeAttribute('aria-busy');

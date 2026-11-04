@@ -7,18 +7,22 @@ declare(strict_types=1);
  * Plataforma Open-Access de CMS Educacional e Banco de Questões
  */
 
-// Oculta assinatura do PHP nos cabeçalhos HTTP
+// Oculta assinatura do PHP nos cabeçalhos HTTP e força charset UTF-8 estrito
 header_remove('X-Powered-By');
+header('Content-Type: text/html; charset=UTF-8');
 
 require_once dirname(__DIR__) . '/config/config.php';
 require_once dirname(__DIR__) . '/config/database.php';
 
 use App\Controllers\AdminArtigoController;
+use App\Controllers\AdminCategoriaController;
 use App\Controllers\AdminDashboardController;
 use App\Controllers\AdminQuestaoController;
+use App\Controllers\AdminUsuarioController;
 use App\Controllers\AlunoController;
 use App\Controllers\AuthController;
 use App\Controllers\HomeController;
+use App\Controllers\PerfilController;
 use App\Core\Auth;
 use App\Core\Helper;
 
@@ -140,6 +144,52 @@ switch ($path) {
         $controller->delete($id);
         break;
 
+    // --- GESTÃO ADMINISTRATIVA DE USUÁRIOS (RBAC) ---
+    case '/admin/usuarios':
+        $controller = new AdminUsuarioController();
+        $controller->index();
+        break;
+
+    case '/admin/usuarios/alterar-tipo':
+        $controller = new AdminUsuarioController();
+        $controller->alterarTipo();
+        break;
+
+    case '/admin/usuarios/excluir':
+    case '/admin/usuarios/delete':
+        $controller = new AdminUsuarioController();
+        $controller->delete($id);
+        break;
+
+    // --- GESTÃO DE CATEGORIAS E DISCIPLINAS ---
+    case '/admin/categorias':
+    case '/admin/disciplinas':
+        $controller = new AdminCategoriaController();
+        $controller->index();
+        break;
+
+    case '/admin/categorias/criar':
+        $controller = new AdminCategoriaController();
+        $controller->storeCategoria();
+        break;
+
+    case '/admin/categorias/excluir':
+    case '/admin/categorias/delete':
+        $controller = new AdminCategoriaController();
+        $controller->deleteCategoria($id);
+        break;
+
+    case '/admin/disciplinas/criar':
+        $controller = new AdminCategoriaController();
+        $controller->storeDisciplina();
+        break;
+
+    case '/admin/disciplinas/excluir':
+    case '/admin/disciplinas/delete':
+        $controller = new AdminCategoriaController();
+        $controller->deleteDisciplina($id);
+        break;
+
     // --- ÁREA DO ALUNO ---
     case '/aluno':
     case '/aluno/dashboard':
@@ -162,12 +212,36 @@ switch ($path) {
         $controller->bancoQuestoes();
         break;
 
+    case '/aluno/medalhas':
+    case '/aluno/conquistas':
+        $controller = new AlunoController();
+        $controller->medalhas();
+        break;
+
     // --- API DE RESOLUÇÃO ASSÍNCRONA ---
     case '/api/questoes/verificar':
     case '/api/verificar-questao':
     case '/api/verificar_questao.php':
         $controller = new AlunoController();
         $controller->verificarQuestao();
+        break;
+
+    // --- CONFIGURAÇÕES DE USUÁRIO & PERFIL ---
+    case '/configuracoes':
+    case '/aluno/configuracoes':
+    case '/admin/configuracoes':
+        $controller = new PerfilController();
+        $controller->index();
+        break;
+
+    case '/configuracoes/salvar-perfil':
+        $controller = new PerfilController();
+        $controller->salvarPerfil();
+        break;
+
+    case '/configuracoes/alterar-senha':
+        $controller = new PerfilController();
+        $controller->alterarSenha();
         break;
 
     // --- 404 NOT FOUND ---

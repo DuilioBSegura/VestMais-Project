@@ -32,6 +32,63 @@ require dirname(__DIR__) . '/layout/header.php';
     </div>
 </div>
 
+<!-- Painel de Desempenho e Conquistas do Estudante -->
+<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3 mb-4">
+    <div class="col">
+        <div class="stat-card">
+            <div class="stat-icon-wrapper stat-icon-emerald">
+                <i class="bi bi-patch-question-fill"></i>
+            </div>
+            <div>
+                <div class="text-muted small fw-semibold">Questões Resolvidas</div>
+                <div class="fs-3 fw-bold text-dark"><?= (int) ($stats['total_respondidas'] ?? 0) ?></div>
+                <span class="text-success small fw-medium">Simulados Feitos</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="stat-card">
+            <div class="stat-icon-wrapper stat-icon-emerald">
+                <i class="bi bi-pie-chart-fill"></i>
+            </div>
+            <div>
+                <div class="text-muted small fw-semibold">Taxa de Acerto</div>
+                <div class="fs-3 fw-bold text-dark"><?= (int) ($stats['taxa_acerto_pct'] ?? 0) ?>%</div>
+                <span class="text-success small fw-medium"><?= (int) ($stats['total_acertos'] ?? 0) ?> acertos no gabarito</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="stat-card">
+            <div class="stat-icon-wrapper stat-icon-emerald">
+                <i class="bi bi-fire text-danger"></i>
+            </div>
+            <div>
+                <div class="text-muted small fw-semibold">Sequência Atual</div>
+                <div class="fs-3 fw-bold text-dark"><?= (int) ($stats['sequencia_atual'] ?? 0) ?> 🔥</div>
+                <span class="text-danger small fw-medium">Acertos Consecutivos</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="stat-card position-relative overflow-hidden">
+            <div class="stat-icon-wrapper stat-icon-emerald" style="background-color: #fef3c7; color: #d97706; border-color: #fde68a;">
+                <i class="bi bi-trophy-fill text-warning"></i>
+            </div>
+            <div>
+                <div class="text-muted small fw-semibold">Minhas Medalhas</div>
+                <div class="fs-3 fw-bold text-dark"><?= (int) ($stats['medalhas_conquistadas'] ?? 0) ?> / <?= (int) ($stats['total_medalhas'] ?? 8) ?></div>
+                <a href="<?= Helper::url('/aluno/medalhas') ?>" class="text-warning fw-bold small text-decoration-none">
+                    Ver Vitrine <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Banner de Acesso Rápido ao Banco de Questões -->
 <div class="card card-custom border-0 shadow-sm p-4 mb-4" style="background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%); border: 1px solid #a7f3d0 !important;">
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">

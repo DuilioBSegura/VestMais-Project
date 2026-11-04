@@ -114,24 +114,161 @@ a:hover {
    COMPONENTES CUSTOMIZADOS VEST+
    ============================================================================== */
 
-/* Navbar Principal */
+/* Rolagem Suave Global e Offset de Âncoras */
+html {
+    scroll-behavior: smooth;
+}
+
+section[id] {
+    scroll-margin-top: 5.5rem;
+}
+
+/* Navbar Principal Escura (Usada nos Dashboards e Legado) */
 .navbar-custom {
     background-color: var(--vest-dark);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.12);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
-.navbar-brand {
+.navbar-custom .navbar-brand {
     font-weight: 800;
     letter-spacing: -0.5px;
     color: var(--vest-mint) !important;
 }
-.nav-link {
+.navbar-custom .nav-link {
     font-weight: 500;
     color: #cbd5e1 !important;
     transition: color 0.2s ease;
 }
-.nav-link:hover, .nav-link.active {
+.navbar-custom .nav-link:hover, .navbar-custom .nav-link.active {
     color: #ffffff !important;
+}
+
+/* Navbar da Landing Page (Clean, Alta Visibilidade & Contraste) */
+.navbar-landing {
+    background-color: rgba(255, 255, 255, 0.96) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid #e2e8f0;
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+    transition: all 0.2s ease;
+}
+
+.navbar-landing .navbar-brand {
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #0f172a !important;
+    text-decoration: none;
+    font-size: 1.35rem;
+}
+.navbar-landing .navbar-brand:hover {
+    color: #0f172a !important;
+}
+
+.navbar-landing .navbar-nav .nav-link {
+    font-weight: 600 !important;
+    font-size: 0.95rem !important;
+    color: #334155 !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: var(--vest-radius-sm);
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.navbar-landing .navbar-nav .nav-link:hover {
+    color: #059669 !important;
+    background-color: #f0fdf4;
+}
+
+.navbar-landing .navbar-nav .nav-link.active {
+    color: #059669 !important;
+    background-color: #ecfdf5;
+    font-weight: 700 !important;
+}
+
+/* Botões de Ação na Navbar da Landing */
+.navbar-landing .btn-nav-login {
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.45rem 1.25rem;
+    border-radius: 50px;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    background-color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+.navbar-landing .btn-nav-login:hover {
+    background-color: #f8fafc;
+    border-color: #94a3b8;
+    color: #059669 !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.navbar-landing .btn-nav-signup {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    color: #ffffff !important;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.45rem 1.35rem;
+    border-radius: 50px;
+    border: none;
+    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+.navbar-landing .btn-nav-signup:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(5, 150, 105, 0.3);
+    background: linear-gradient(135deg, #047857 0%, #059669 100%);
+    color: #ffffff !important;
+}
+
+/* Mobile Navbar Toggler & Collapse */
+.navbar-landing .navbar-toggler {
+    padding: 0.4rem 0.65rem;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    background-color: #f8fafc;
+}
+.navbar-landing .navbar-toggler-icon {
+    filter: invert(0.2);
+}
+
+@media (max-width: 991px) {
+    .navbar-landing .navbar-collapse {
+        background-color: #ffffff;
+        border-radius: 12px;
+        padding: 1rem;
+        margin-top: 0.75rem;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+    }
+    .navbar-landing .navbar-nav .nav-link {
+        padding: 0.65rem 0.85rem !important;
+        border-radius: 8px;
+    }
+}
+
+/* Links do Footer (Alto Contraste) */
+.footer-clean-link {
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+.footer-clean-link:hover {
+    color: #34d399 !important;
+    transform: translateX(4px);
 }
 
 /* Cards Estilizados */
@@ -444,4 +581,581 @@ a:hover {
     align-items: center;
     gap: 0.4rem;
 }
+
+/* ==============================================================================
+   LAYOUT DE DASHBOARD COM BARRA LATERAL (SIDEBAR LAYOUT)
+   ============================================================================== */
+
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--vest-bg);
+    position: relative;
+    width: 100%;
+}
+
+/* Sidebar Backdrop (Mobile Overlay) */
+.sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(4px);
+    z-index: 1040;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+.sidebar-backdrop.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Barra Lateral (Sidebar) */
+.app-sidebar {
+    width: 260px;
+    min-width: 260px;
+    background-color: #0c1824;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    z-index: 1045;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Topo da Sidebar */
+.sidebar-header {
+    height: 64px;
+    padding: 0 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: #ffffff;
+}
+.sidebar-brand:hover {
+    color: #ffffff;
+}
+
+.sidebar-brand-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: rgba(5, 150, 105, 0.2);
+    border: 1px solid rgba(52, 211, 153, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--vest-mint);
+    font-size: 1.2rem;
+}
+
+.brand-title {
+    font-weight: 800;
+    font-size: 1.25rem;
+    letter-spacing: -0.5px;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sidebar-role-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-close-sidebar {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 1.2rem;
+    padding: 0.25rem;
+    line-height: 1;
+    cursor: pointer;
+}
+.btn-close-sidebar:hover {
+    color: #ffffff;
+}
+
+/* Área de Navegação */
+.sidebar-nav-wrapper {
+    flex-grow: 1;
+    padding: 1.25rem 0.85rem;
+    overflow-y: auto;
+}
+
+.nav-section-title {
+    font-size: 0.685rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #64748b;
+    padding: 0.4rem 0.85rem;
+    margin-bottom: 0.25rem;
+}
+
+.sidebar-nav .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.65rem 0.95rem;
+    border-radius: var(--vest-radius-sm);
+    color: #cbd5e1 !important;
+    font-weight: 500;
+    font-size: 0.915rem;
+    transition: all 0.2s ease;
+    margin-bottom: 0.25rem;
+}
+
+.sidebar-nav .nav-link i {
+    font-size: 1.15rem;
+    color: #94a3b8;
+    transition: color 0.2s ease;
+}
+
+.sidebar-nav .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.07);
+    color: #ffffff !important;
+    transform: translateX(3px);
+}
+.sidebar-nav .nav-link:hover i {
+    color: var(--vest-mint);
+}
+
+.sidebar-nav .nav-link.active {
+    background: linear-gradient(90deg, rgba(5, 150, 105, 0.3) 0%, rgba(5, 150, 105, 0.1) 100%);
+    color: #34d399 !important;
+    font-weight: 600;
+    border-left: 3px solid var(--vest-mint);
+    padding-left: calc(0.95rem - 3px);
+}
+.sidebar-nav .nav-link.active i {
+    color: var(--vest-mint);
+}
+
+/* Rodapé do Usuário na Sidebar */
+.sidebar-user-footer {
+    padding: 0.85rem 1.15rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background-color: rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sidebar-user-footer .user-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 1.2;
+}
+
+.sidebar-user-footer .user-role {
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+
+.btn-sidebar-logout {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    border-radius: 6px;
+    padding: 0.35rem 0.55rem;
+    font-size: 1rem;
+    line-height: 1;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-sidebar-logout:hover {
+    background: #ef4444;
+    color: #ffffff;
+}
+
+/* Área Principal de Conteúdo e Topbar */
+.app-main-wrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 100vh;
+}
+
+.app-topbar {
+    height: 64px;
+    background: #ffffff;
+    border-bottom: 1px solid var(--vest-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.btn-sidebar-toggle {
+    background-color: #f1f5f9;
+    border: 1px solid var(--vest-border);
+    color: #475569;
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.2s ease;
+}
+.btn-sidebar-toggle:hover {
+    background-color: #e2e8f0;
+    color: var(--vest-primary);
+}
+
+.app-main-content {
+    flex-grow: 1;
+}
+
+.app-footer {
+    background: #ffffff;
+    border-top: 1px solid var(--vest-border);
+    padding: 1rem 0;
+    margin-top: auto;
+}
+
+/* Avatares Circulares */
+.avatar-circle-lg {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.85rem;
+    font-weight: 700;
+}
+
+.avatar-circle-sm {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.avatar-circle-xs {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+/* Responsividade Mobile da Sidebar */
+@media (max-width: 991.98px) {
+    .app-sidebar {
+        position: fixed;
+        top: 0;
+        left: -270px;
+        width: 270px;
+        height: 100vh;
+        z-index: 1050;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+    .app-sidebar.show {
+        left: 0;
+    }
+}
+
+/* ==============================================================================
+   MOCKUP DE COMPUTADOR / LAPTOP EM CSS & DESIGN MINIMALISTA
+   ============================================================================== */
+
+.hero-clean-bg {
+    background-color: #ffffff;
+    background-image: 
+        radial-gradient(circle at 50% 15%, rgba(52, 211, 153, 0.12) 0%, rgba(5, 150, 105, 0.03) 45%, transparent 70%),
+        linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-pill-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1.15rem;
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    color: #065f46;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+
+/* Container do Mockup do Computador */
+.laptop-mockup-wrapper {
+    position: relative;
+    max-width: 960px;
+    margin: 2.5rem auto 0 auto;
+    perspective: 1200px;
+}
+
+/* Tampa / Tela do Laptop */
+.laptop-screen-frame {
+    background: #0b131e;
+    border-radius: 18px 18px 0 0;
+    padding: 10px 10px 0 10px;
+    box-shadow: 0 30px 60px -12px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.08);
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+/* Câmera / WebCam */
+.laptop-webcam {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #334155;
+    margin: 0 auto 8px auto;
+    box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.8);
+}
+
+/* Display / Tela Interna */
+.laptop-display {
+    background: #f8fafc;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+    height: 480px;
+    position: relative;
+    border: 1px solid #1e293b;
+    font-size: 0.82rem;
+    display: flex;
+}
+
+@media (max-width: 768px) {
+    .laptop-display {
+        height: 320px;
+    }
+}
+
+/* Base / Teclado do Laptop */
+.laptop-base {
+    width: calc(100% + 40px);
+    margin-left: -20px;
+    height: 14px;
+    background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
+    border-radius: 0 0 6px 6px;
+    position: relative;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.laptop-notch {
+    width: 80px;
+    height: 5px;
+    background: #0f172a;
+    border-radius: 0 0 4px 4px;
+    margin: 0 auto;
+}
+
+/* Sombra Suave no Piso */
+.laptop-floor-shadow {
+    width: 90%;
+    height: 25px;
+    margin: 0 auto;
+    background: radial-gradient(ellipse at center, rgba(15, 23, 42, 0.25) 0%, transparent 70%);
+    filter: blur(8px);
+}
+
+/* Interior do Mockup */
+.mockup-sidebar {
+    width: 175px;
+    background: #0f172a;
+    padding: 0.85rem;
+    flex-shrink: 0;
+    text-align: left;
+}
+.mockup-sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    padding-bottom: 0.75rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.mockup-sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+.mockup-nav-item {
+    padding: 0.35rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.mockup-nav-item.active {
+    background: rgba(5, 150, 105, 0.2);
+    color: #34d399;
+    font-weight: 600;
+}
+.mockup-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #059669;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.68rem;
+}
+.mockup-main {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+.mockup-topbar {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+/* Seções Minimalistas */
+.clean-stat-box {
+    border: 1px solid var(--vest-border);
+    border-radius: var(--vest-radius);
+    padding: 1.5rem 1rem;
+    background: #ffffff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.clean-stat-box:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--vest-shadow-md);
+}
+
+.clean-feature-box {
+    border: 1px solid #e2e8f0;
+    border-radius: var(--vest-radius);
+    padding: 2.25rem 1.75rem;
+    background: #ffffff;
+    transition: all 0.25s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.clean-feature-box:hover {
+    border-color: #34d399;
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px -6px rgba(5, 150, 105, 0.1);
+}
+
+.clean-icon-circle {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: #ecfdf5;
+    color: #059669;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 1.25rem;
+}
+
+/* FAQ Minimalista (Accordion Limpo) */
+.accordion-clean .accordion-item {
+    border: 1px solid #e2e8f0;
+    border-radius: 10px !important;
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+    background: #ffffff;
+}
+.accordion-clean .accordion-button {
+    font-weight: 600;
+    color: var(--vest-dark);
+    background-color: #ffffff;
+    padding: 1.15rem 1.25rem;
+    box-shadow: none !important;
+}
+.accordion-clean .accordion-button:not(.collapsed) {
+    color: var(--vest-primary-dark);
+    background-color: #f0fdf4;
+}
+.accordion-clean .accordion-button::after {
+    filter: grayscale(1);
+}
+.accordion-clean .accordion-button:not(.collapsed)::after {
+    filter: none;
+}
+.accordion-clean .accordion-body {
+    padding: 1rem 1.25rem 1.25rem 1.25rem;
+    color: #475569;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Cards Minimalistas de Equipe */
+.team-member-minimal {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    background: #ffffff;
+    transition: all 0.2s ease;
+}
+.team-member-minimal:hover {
+    border-color: #34d399;
+    transform: translateY(-3px);
+    box-shadow: var(--vest-shadow);
+}
+.team-avatar-gradient {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 0 auto 0.85rem auto;
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(5, 150, 105, 0.2);
+}
+
+
 

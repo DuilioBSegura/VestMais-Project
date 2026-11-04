@@ -78,4 +78,46 @@ final class Disciplina
 
         return (bool) $stmt->fetchColumn();
     }
+
+    /**
+     * Cadastra uma nova disciplina.
+     */
+    public static function create(string $nome, string $slug, ?string $descricao = null): int
+    {
+        $pdo = Database::getConnection();
+        $stmt = $pdo->prepare('INSERT INTO disciplinas (nome, slug, descricao) VALUES (:nome, :slug, :descricao)');
+        $stmt->bindValue(':nome', $nome, PDO::PARAM_STR);
+        $stmt->bindValue(':slug', $slug, PDO::PARAM_STR);
+        $stmt->bindValue(':descricao', $descricao, $descricao !== null ? PDO::PARAM_STR : PDO::PARAM_NULL);
+        $stmt->execute();
+
+        return (int) $pdo->lastInsertId();
+    }
+
+    /**
+     * Atualiza os dados de uma disciplina existente.
+     */
+    public static function update(int $id, string $nome, string $slug, ?string $descricao = null): bool
+    {
+        $pdo = Database::getConnection();
+        $stmt = $pdo->prepare('UPDATE disciplinas SET nome = :nome, slug = :slug, descricao = :descricao WHERE id = :id');
+        $stmt->bindValue(':nome', $nome, PDO::PARAM_STR);
+        $stmt->bindValue(':slug', $slug, PDO::PARAM_STR);
+        $stmt->bindValue(':descricao', $descricao, $descricao !== null ? PDO::PARAM_STR : PDO::PARAM_NULL);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+    /**
+     * Remove uma disciplina pelo ID.
+     */
+    public static function delete(int $id): bool
+    {
+        $pdo = Database::getConnection();
+        $stmt = $pdo->prepare('DELETE FROM disciplinas WHERE id = :id');
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
 }

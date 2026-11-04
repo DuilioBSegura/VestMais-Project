@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Core\Auth;
 use App\Core\Flash;
 use App\Models\Artigo;
 use App\Models\Categoria;
 use App\Models\Disciplina;
+use App\Models\Medalha;
 use App\Models\Questao;
 
 /**
@@ -27,10 +29,35 @@ final class AlunoController extends BaseController
     public function dashboard(): void
     {
         $disciplinas = Disciplina::getWithCounts();
+        $currentUser = Auth::user();
+        $userId = (int) ($currentUser['id'] ?? 0);
+
+        $stats = Medalha::getEstatisticasEstudante($userId);
+        $medalhasConquistadas = Medalha::getConquistadasPorUsuario($userId);
 
         $this->render('aluno/dashboard', [
-            'pageTitle'   => 'Área do Estudante - Dashboard',
-            'disciplinas' => $disciplinas,
+            'pageTitle'            => 'Área do Estudante - Dashboard',
+            'disciplinas'          => $disciplinas,
+            'stats'                => $stats,
+            'medalhasConquistadas' => $medalhasConquistadas,
+        ]);
+    }
+
+    /**
+     * Vitrine completa de medalhas e conquistas do vestibulando.
+     */
+    public function medalhas(): void
+    {
+        $currentUser = Auth::user();
+        $userId = (int) ($currentUser['id'] ?? 0);
+
+        $vitrine = Medalha::getVitrineParaUsuario($userId);
+        $stats = Medalha::getEstatisticasEstudante($userId);
+
+        $this->render('aluno/medalhas', [
+            'pageTitle' => 'Minhas Conquistas & Medalhas',
+            'vitrine'   => $vitrine,
+            'stats'     => $stats,
         ]);
     }
 
@@ -158,6 +185,19 @@ final class AlunoController extends BaseController
             ], 404);
             return;
         }
+
+        // Persistência do histórico de respostas e validação de conquistas
+        $currentUser = Auth::user();
+        $userId = (int) ($currentUser['id'] ?? 0);
+        $novasMedalhas = [];
+
+        if ($userId > 0) {
+            $correta = (bool) ($resultado['correta'] ?? false);
+            Medalha::registrarResposta($userId, $questaoId, $resposta, $correta);
+            $novasMedalhas = Medalha::verificarNovasConquistas($userId);
+        }
+
+        $resultado['novas_medalhas'] = $novasMedalhas;
 
         $this->json($resultado, 200);
     }

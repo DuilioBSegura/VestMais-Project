@@ -17,6 +17,9 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
     `email` VARCHAR(191) NOT NULL,
     `senha` VARCHAR(255) NOT NULL,
     `tipo` ENUM('aluno', 'admin') NOT NULL DEFAULT 'aluno',
+    `vestibular_foco` VARCHAR(50) NOT NULL DEFAULT 'ENEM',
+    `bio` VARCHAR(255) NULL,
+    `telefone` VARCHAR(20) NULL,
     `criado_em` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `pk_usuarios` PRIMARY KEY (`id`),
     CONSTRAINT `uk_usuarios_email` UNIQUE (`email`),
@@ -44,10 +47,13 @@ CREATE TABLE IF NOT EXISTS `categorias` (
     `id` INT UNSIGNED AUTO_INCREMENT,
     `nome` VARCHAR(100) NOT NULL,
     `slug` VARCHAR(120) NOT NULL,
+    `disciplina_id` INT UNSIGNED NULL,
     `criado_em` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `pk_categorias` PRIMARY KEY (`id`),
     CONSTRAINT `uk_categorias_slug` UNIQUE (`slug`),
-    INDEX `idx_categorias_nome` (`nome`)
+    CONSTRAINT `fk_categorias_disciplina` FOREIGN KEY (`disciplina_id`) REFERENCES `disciplinas` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    INDEX `idx_categorias_nome` (`nome`),
+    INDEX `idx_categorias_disciplina` (`disciplina_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ------------------------------------------------------------------------------
@@ -80,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `questoes` (
     `alternativa_c` TEXT NOT NULL,
     `alternativa_d` TEXT NOT NULL,
     `alternativa_e` TEXT NOT NULL,
-    `gabarito` ENUM('A', 'B', 'C', 'D', 'E') NOT NULL,
+    `resposta_correta` ENUM('A', 'B', 'C', 'D', 'E') NOT NULL,
     `explicacao` LONGTEXT NOT NULL,
     `criado_em` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `pk_questoes` PRIMARY KEY (`id`),
@@ -176,14 +182,14 @@ ON DUPLICATE KEY UPDATE
 -- ==============================================================================
 -- CARGA INICIAL (SEEDS): QUESTÕES DE VESTIBULAR
 -- ==============================================================================
-INSERT INTO `questoes` (`id`, `disciplina_id`, `enunciado`, `alternativa_a`, `alternativa_b`, `alternativa_c`, `alternativa_d`, `alternativa_e`, `gabarito`, `explicacao`)
+INSERT INTO `questoes` (`id`, `disciplina_id`, `enunciado`, `alternativa_a`, `alternativa_b`, `alternativa_c`, `alternativa_d`, `alternativa_e`, `resposta_correta`, `explicacao`)
 VALUES
     (1, 1, 'Uma transportadora estabelece o valor cobrado por frete através de uma tarifa fixa de partida no valor de R$ 12,00 somada a um custo variável de R$ 3,50 por quilômetro percorrido. Um cliente contratou o envio de uma remessa de livros didáticos entre duas cidades cuja distância rodoviária é de 40 quilômetros. O valor total pago pelo cliente pelo serviço de entrega foi de:', 'R$ 140,00', 'R$ 148,00', 'R$ 152,00', 'R$ 160,00', 'R$ 164,00', 'C', 'Resolução detalhada:\nA relação do custo total pode ser expressa pela função afim C(x) = b + ax, onde:\n- b = R$ 12,00 (valor fixo)\n- a = R$ 3,50 (valor por quilômetro)\n- x = 40 km (distância percorrida)\n\nC(40) = 12 + (3,50 * 40)\nC(40) = 12 + 140 = R$ 152,00.\nPortanto, a alternativa correta é a letra C.'),
     (2, 2, 'Em um teste de segurança automotiva em linha reta, um veículo inicialmente em repouso acelera com aceleração escalar constante de 3,0 m/s² durante um intervalo de 8,0 segundos. Desconsiderando qualquer efeito dissipativo do ar, a distância total percorrida pelo automóvel ao término desse tempo é de:', '48 metros', '72 metros', '96 metros', '120 metros', '192 metros', 'C', 'Resolução detalhada:\nTrata-se de um Movimento Uniformemente Variado (MUV). A equação horária do espaço é dada por:\nS = S₀ + V₀·t + (a·t²)/2\n\nComo o veículo partiu do repouso, S₀ = 0 e V₀ = 0:\nS = (3,0 · 8,0²) / 2\nS = (3,0 · 64) / 2 = 192 / 2 = 96 metros.\nPortanto, a alternativa correta é a letra C.'),
     (3, 3, 'Em um ecossistema aquático continental contaminado pelo descarte inadequado de efluentes industriais contendo mercúrio (composto não biodegradável), pesquisadores avaliaram os teores desse metal tóxico em diferentes componentes de uma teia trófica: fitoplâncton, zooplâncton, lambaris (pequenos peixes) e garças-brancas (aves piscívoras). A maior concentração de mercúrio por unidade de biomassa foi constatada:', 'No fitoplâncton, pois são os produtores que retiram o elemento diretamente da coluna d\'água.', 'No zooplâncton, em decorrência da taxa acelerada de filtragem da água em relação ao seu volume.', 'Nos lambaris, devido ao armazenamento primário do poluente nas escamas e no tecido muscular.', 'Nas garças-brancas, em virtude do acúmulo biológico progressivo conhecido como magnificação trófica.', 'De forma equivalente em todos os níveis, haja vista a diluição homogênea do elemento no meio aquático.', 'D', 'Resolução detalhada:\nSubstâncias bioacumulativas e não metabolizáveis, como o mercúrio e compostos organoclorados, não são eliminadas pelos organismos e passam de um nível trófico ao seguinte. Devido à diminuição da biomassa a cada nível superior, a concentração do contaminante por quilograma de tecido aumenta exponencialmente ao longo da cadeia alimentar (magnificação trófica). Por ocupar o topo da cadeia nessa teia, a garça-branca apresentará a maior concentração residual do metal pesado. Portanto, a resposta correta é a alternativa D.')
 ON DUPLICATE KEY UPDATE
     `enunciado` = VALUES(`enunciado`),
-    `gabarito` = VALUES(`gabarito`),
+    `resposta_correta` = VALUES(`resposta_correta`),
     `explicacao` = VALUES(`explicacao`);
 
 -- ==============================================================================
@@ -191,5 +197,60 @@ ON DUPLICATE KEY UPDATE
 -- ==============================================================================
 INSERT IGNORE INTO `artigo_categorias` (`artigo_id`, `categoria_id`) VALUES (1, 1), (2, 5);
 INSERT IGNORE INTO `questao_categorias` (`questao_id`, `categoria_id`) VALUES (1, 1), (2, 3), (3, 5);
+
+-- ==============================================================================
+-- TABELAS DE GAMIFICAÇÃO & HISTÓRICO DE SIMULADOS
+-- ==============================================================================
+CREATE TABLE IF NOT EXISTS `usuario_respostas` (
+    `id` INT UNSIGNED AUTO_INCREMENT,
+    `usuario_id` INT UNSIGNED NOT NULL,
+    `questao_id` INT UNSIGNED NOT NULL,
+    `alternativa_marcada` ENUM('A', 'B', 'C', 'D', 'E') NOT NULL,
+    `acertou` TINYINT(1) NOT NULL DEFAULT 0,
+    `criado_em` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `pk_usuario_respostas` PRIMARY KEY (`id`),
+    CONSTRAINT `fk_usuario_respostas_user` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `fk_usuario_respostas_questao` FOREIGN KEY (`questao_id`) REFERENCES `questoes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    INDEX `idx_usuario_respostas_user` (`usuario_id`),
+    INDEX `idx_usuario_respostas_questao` (`questao_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `medalhas` (
+    `id` INT UNSIGNED AUTO_INCREMENT,
+    `slug` VARCHAR(80) NOT NULL,
+    `titulo` VARCHAR(150) NOT NULL,
+    `descricao` TEXT NOT NULL,
+    `categoria` VARCHAR(50) NOT NULL DEFAULT 'geral',
+    `icone` VARCHAR(80) NOT NULL DEFAULT 'bi-trophy-fill',
+    `cor` VARCHAR(30) NOT NULL DEFAULT 'emerald',
+    `criterio_tipo` VARCHAR(50) NOT NULL,
+    `criterio_valor` INT NOT NULL DEFAULT 1,
+    `criado_em` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `pk_medalhas` PRIMARY KEY (`id`),
+    CONSTRAINT `uk_medalhas_slug` UNIQUE (`slug`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `usuario_medalhas` (
+    `id` INT UNSIGNED AUTO_INCREMENT,
+    `usuario_id` INT UNSIGNED NOT NULL,
+    `medalha_id` INT UNSIGNED NOT NULL,
+    `conquistada_em` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `pk_usuario_medalhas` PRIMARY KEY (`id`),
+    CONSTRAINT `uk_usuario_medalha` UNIQUE (`usuario_id`, `medalha_id`),
+    CONSTRAINT `fk_usuario_medalhas_user` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `fk_usuario_medalhas_medalha` FOREIGN KEY (`medalha_id`) REFERENCES `medalhas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `medalhas` (`id`, `slug`, `titulo`, `descricao`, `categoria`, `icone`, `cor`, `criterio_tipo`, `criterio_valor`)
+VALUES
+    (1, 'primeiro-passo', 'Primeiro Passo', 'Respondeu à sua primeira questão no simulado interativo do Vest+.', 'iniciante', 'bi-play-circle-fill', 'emerald', 'total_questoes', 1),
+    (2, 'sequencia-implacavel', 'Sequência Implacável', 'Acertou 3 questões consecutivas no gabarito oficial sem cometer erros.', 'precisao', 'bi-fire', 'danger', 'sequencia_acertos', 3),
+    (3, 'ritmo-de-prova', 'Ritmo de Prova', 'Resolveu com dedicação 5 questões no banco de simulados.', 'volume', 'bi-lightning-charge-fill', 'warning', 'total_questoes', 5),
+    (4, 'maratonista-vestibular', 'Maratonista do ENEM', 'Alcançou a marca expressiva de 15 questões respondidas na plataforma.', 'volume', 'bi-trophy-fill', 'purple', 'total_questoes', 15),
+    (5, 'precisao-cirurgica', 'Precisão Cirúrgica', 'Alcançou 5 acertos confirmados no gabarito do banco de questões.', 'precisao', 'bi-bullseye', 'emerald', 'total_acertos', 5),
+    (6, 'explorador-exatas', 'Mestre de Exatas', 'Respondeu a 3 questões de disciplinas da área de Ciências Exatas (Matemática e Física).', 'disciplina', 'bi-calculator-fill', 'info', 'disciplina_exatas', 3),
+    (7, 'ciencias-natureza', 'Cientista da Natureza', 'Respondeu a 3 questões de Biologia ou Química.', 'disciplina', 'bi-flower1', 'success', 'disciplina_natureza', 3),
+    (8, 'pensador-humanas', 'Pensador Crítico', 'Respondeu a 3 questões da área de Ciências Humanas (História, Geografia ou Filosofia).', 'disciplina', 'bi-book-half', 'primary', 'disciplina_humanas', 3)
+ON DUPLICATE KEY UPDATE `titulo` = VALUES(`titulo`), `descricao` = VALUES(`descricao`);
 
 SET FOREIGN_KEY_CHECKS = 1;

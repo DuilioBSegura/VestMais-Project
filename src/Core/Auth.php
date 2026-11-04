@@ -14,6 +14,17 @@ final class Auth
     public static function start(): void
     {
         if (session_status() === PHP_SESSION_NONE && !headers_sent()) {
+            $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+                || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
+
+            session_set_cookie_params([
+                'lifetime' => 0,
+                'path'     => '/',
+                'domain'   => '',
+                'secure'   => $isHttps,
+                'httponly' => true,
+                'samesite' => 'Lax',
+            ]);
             @session_start();
         }
     }
@@ -63,13 +74,31 @@ final class Auth
     public static function login(array $user): void
     {
         self::start();
-        session_regenerate_id(true);
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            @session_regenerate_id(true);
+        }
         $_SESSION[self::SESSION_USER_KEY] = [
-            'id'    => (int) ($user['id'] ?? 0),
-            'nome'  => (string) ($user['nome'] ?? ''),
-            'email' => (string) ($user['email'] ?? ''),
-            'tipo'  => (string) ($user['tipo'] ?? 'aluno'),
+            'id'              => (int) ($user['id'] ?? 0),
+            'nome'            => (string) ($user['nome'] ?? ''),
+            'email'           => (string) ($user['email'] ?? ''),
+            'tipo'            => (string) ($user['tipo'] ?? 'aluno'),
+            'vestibular_foco' => (string) ($user['vestibular_foco'] ?? 'ENEM'),
         ];
+    }
+
+    /**
+     * Atualiza os dados do usuário autenticado na sessão ativa.
+     *
+     * @param array<string, mixed> $user
+     */
+    public static function updateUser(array $user): void
+    {
+        self::start();
+        if (isset($_SESSION[self::SESSION_USER_KEY])) {
+            foreach ($user as $k => $v) {
+                $_SESSION[self::SESSION_USER_KEY][$k] = $v;
+            }
+        }
     }
 
     /**

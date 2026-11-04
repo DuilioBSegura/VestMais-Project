@@ -1,0 +1,28 @@
+# ==============================================================================
+# Vest+ Platform - Caddyfile (Reverse Proxy com SSL Automático)
+# ==============================================================================
+# Substitua 'seu-dominio.com.br' pelo seu domínio real configurado no DNS.
+# Caddy cuida automaticamente da emissão e renovação dos certificados Let's Encrypt / ZeroSSL.
+
+vestmais.pulsovivo.com.br {
+    # Redireciona o tráfego para o container da aplicação (Apache na porta interna 80)
+    reverse_proxy app:80
+
+    # Compactação de conteúdo para otimização de performance
+    encode gzip zstd
+
+    # Cabeçalhos de segurança essenciais de produção
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "SAMEORIGIN"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        Permissions-Policy "camera=(), microphone=(), geolocation=()"
+    }
+
+    # Logs de acesso estruturados
+    log {
+        output stdout
+        format console
+    }
+}

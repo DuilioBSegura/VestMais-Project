@@ -12,6 +12,10 @@ declare(strict_types=1);
 // Blindagem de Produção: Desativa exibição de erros na tela e registra em log interno
 ini_set('display_errors', '0');
 ini_set('display_startup_errors', '0');
+ini_set('default_charset', 'UTF-8');
+if (function_exists('mb_internal_encoding')) {
+    mb_internal_encoding('UTF-8');
+}
 error_reporting(E_ALL);
 
 // Remove a assinatura do PHP nos cabeçalhos HTTP
