@@ -37,15 +37,14 @@ CREATE TABLE IF NOT EXISTS `usuario_respostas` (
     `id` INT UNSIGNED AUTO_INCREMENT,
     `usuario_id` INT UNSIGNED NOT NULL,
     `questao_id` INT UNSIGNED NOT NULL,
-    `alternativa_escolhida` ENUM('a','b','c','d','e','A','B','C','D','E') NOT NULL,
-    `acertou` TINYINT(1) NOT NULL,
-    `respondido_em` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `alternativa_marcada` ENUM('A', 'B', 'C', 'D', 'E') NOT NULL,
+    `acertou` TINYINT(1) NOT NULL DEFAULT 0,
+    `criado_em` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `pk_usuario_respostas` PRIMARY KEY (`id`),
     CONSTRAINT `fk_usuario_respostas_user` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT `fk_usuario_respostas_questao` FOREIGN KEY (`questao_id`) REFERENCES `questoes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     INDEX `idx_usuario_respostas_user` (`usuario_id`),
-    INDEX `idx_usuario_respostas_questao` (`questao_id`),
-    INDEX `idx_usuario_respostas_data` (`respondido_em`)
+    INDEX `idx_usuario_respostas_questao` (`questao_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ------------------------------------------------------------------------------
@@ -53,15 +52,15 @@ CREATE TABLE IF NOT EXISTS `usuario_respostas` (
 -- ------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `medalhas` (
     `id` INT UNSIGNED AUTO_INCREMENT,
-    `slug` VARCHAR(60) NOT NULL,
-    `titulo` VARCHAR(100) NOT NULL,
-    `descricao` VARCHAR(255) NOT NULL,
+    `slug` VARCHAR(80) NOT NULL,
+    `titulo` VARCHAR(150) NOT NULL,
+    `descricao` TEXT NOT NULL,
     `categoria` VARCHAR(50) NOT NULL DEFAULT 'geral',
-    `icone` VARCHAR(60) NOT NULL,
-    `cor` VARCHAR(30) NOT NULL DEFAULT 'primary',
+    `icone` VARCHAR(80) NOT NULL DEFAULT 'bi-trophy-fill',
+    `cor` VARCHAR(30) NOT NULL DEFAULT 'emerald',
     `criterio_tipo` VARCHAR(50) NOT NULL,
-    `criterio_valor` INT NOT NULL,
-    `criado_em` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `criterio_valor` INT NOT NULL DEFAULT 1,
+    `criado_em` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `pk_medalhas` PRIMARY KEY (`id`),
     CONSTRAINT `uk_medalhas_slug` UNIQUE (`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -73,9 +72,9 @@ CREATE TABLE IF NOT EXISTS `usuario_medalhas` (
     `id` INT UNSIGNED AUTO_INCREMENT,
     `usuario_id` INT UNSIGNED NOT NULL,
     `medalha_id` INT UNSIGNED NOT NULL,
-    `desbloqueado_em` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `conquistada_em` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `pk_usuario_medalhas` PRIMARY KEY (`id`),
-    CONSTRAINT `uk_user_medalha` UNIQUE (`usuario_id`, `medalha_id`),
+    CONSTRAINT `uk_usuario_medalha` UNIQUE (`usuario_id`, `medalha_id`),
     CONSTRAINT `fk_usuario_medalhas_user` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT `fk_usuario_medalhas_medalha` FOREIGN KEY (`medalha_id`) REFERENCES `medalhas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
