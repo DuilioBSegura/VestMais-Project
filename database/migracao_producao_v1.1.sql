@@ -34,10 +34,10 @@ DEALLOCATE PREPARE stmt_fk;
 -- 2. Tabela de Histórico de Resoluções do Estudante (Gamificação)
 -- ------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `usuario_respostas` (
-    `id` INT AUTO_INCREMENT,
-    `usuario_id` INT NOT NULL,
-    `questao_id` INT NOT NULL,
-    `alternativa_escolhida` ENUM('a','b','c','d','e') NOT NULL,
+    `id` INT UNSIGNED AUTO_INCREMENT,
+    `usuario_id` INT UNSIGNED NOT NULL,
+    `questao_id` INT UNSIGNED NOT NULL,
+    `alternativa_escolhida` ENUM('a','b','c','d','e','A','B','C','D','E') NOT NULL,
     `acertou` TINYINT(1) NOT NULL,
     `respondido_em` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `pk_usuario_respostas` PRIMARY KEY (`id`),
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `usuario_respostas` (
 -- 3. Tabela de Medalhas / Conquistas
 -- ------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `medalhas` (
-    `id` INT AUTO_INCREMENT,
+    `id` INT UNSIGNED AUTO_INCREMENT,
     `slug` VARCHAR(60) NOT NULL,
     `titulo` VARCHAR(100) NOT NULL,
     `descricao` VARCHAR(255) NOT NULL,
@@ -70,9 +70,9 @@ CREATE TABLE IF NOT EXISTS `medalhas` (
 -- 4. Tabela de Relação Usuário-Medalhas (Conquistas Desbloqueadas)
 -- ------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `usuario_medalhas` (
-    `id` INT AUTO_INCREMENT,
-    `usuario_id` INT NOT NULL,
-    `medalha_id` INT NOT NULL,
+    `id` INT UNSIGNED AUTO_INCREMENT,
+    `usuario_id` INT UNSIGNED NOT NULL,
+    `medalha_id` INT UNSIGNED NOT NULL,
     `desbloqueado_em` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `pk_usuario_medalhas` PRIMARY KEY (`id`),
     CONSTRAINT `uk_user_medalha` UNIQUE (`usuario_id`, `medalha_id`),
