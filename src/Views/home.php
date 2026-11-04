@@ -545,8 +545,7 @@ $equipeIntegrantes = [
                             <div class="team-avatar-gradient">
                                 <?= Helper::e($membro['iniciais']) ?>
                             </div>
-                            <h6 class="fw-bold text-dark mb-1"><?= Helper::e($membro['nome']) ?></h6>
-                            <span class="badge bg-light text-secondary border small" style="font-size: 0.68rem;">Idealizador</span>
+                            <h6 class="fw-bold text-dark mb-0"><?= Helper::e($membro['nome']) ?></h6>
                         </div>
                     </div>
                 <?php endforeach; ?>
