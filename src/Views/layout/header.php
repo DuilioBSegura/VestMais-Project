@@ -36,7 +36,7 @@ $currentUri = $_SERVER['REQUEST_URI'] ?? '';
     <!-- Estilos da Aplicação -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="<?= Helper::url('/css/style.css?v=1.1.3') ?>">
+    <link rel="stylesheet" href="<?= Helper::url('/css/style.css?v=1.1.4') ?>">
 </head>
 <body>
 
@@ -187,7 +187,10 @@ $currentUri = $_SERVER['REQUEST_URI'] ?? '';
         <div class="app-main-wrapper">
             <!-- Barra Superior (Topbar) -->
             <header class="app-topbar">
-                <div class="d-flex align-items-center gap-3">
+                <div class="d-flex align-items-center gap-2 gap-sm-3">
+                    <button type="button" class="btn btn-sm btn-light border d-lg-none d-flex align-items-center justify-content-center p-2" id="sidebarToggleBtn" aria-label="Abrir Menu">
+                        <i class="bi bi-list fs-5"></i>
+                    </button>
                     <!-- Breadcrumb Dinâmico -->
                     <div class="d-flex align-items-center gap-2 small text-muted">
                         <span class="text-secondary fw-semibold">

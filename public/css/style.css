@@ -115,10 +115,13 @@ a:hover {
    ============================================================================== */
 
 /* Rolagem Suave Global e Offset de Âncoras */
-html, body {
-    overflow-x: hidden;
-    max-width: 100%;
+html {
     scroll-behavior: smooth;
+}
+
+body {
+    max-width: 100%;
+    overflow-x: clip; /* Clip não quebra o position: sticky da sidebar */
 }
 
 section[id] {
@@ -646,6 +649,7 @@ section[id] {
 .app-sidebar {
     width: 260px;
     min-width: 260px;
+    flex-shrink: 0;
     background-color: #0c1824;
     border-right: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
