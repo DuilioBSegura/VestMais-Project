@@ -64,7 +64,7 @@ final class AdminUsuarioController extends BaseController
             return;
         }
 
-        $userId = $id > 0 ? $id : (int) ($_POST['id'] ?? 0);
+        $userId = $id > 0 ? $id : (int) ($_POST['id'] ?? $_GET['id'] ?? 0);
         $novoTipo = (string) ($_POST['tipo'] ?? 'aluno');
 
         if ($userId <= 0 || !in_array($novoTipo, ['aluno', 'admin'], true)) {
@@ -114,7 +114,7 @@ final class AdminUsuarioController extends BaseController
             return;
         }
 
-        $userId = $id > 0 ? $id : (int) ($_POST['id'] ?? 0);
+        $userId = $id > 0 ? $id : (int) ($_POST['id'] ?? $_GET['id'] ?? 0);
         if ($userId <= 0) {
             Flash::error('Identificador de usuário inválido para exclusão.');
             $this->redirect('/admin/usuarios');

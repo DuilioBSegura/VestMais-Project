@@ -110,14 +110,39 @@ final class Disciplina
     }
 
     /**
-     * Remove uma disciplina pelo ID.
+     * Remove uma disciplina pelo ID com tratamento transacional dos vínculos.
      */
     public static function delete(int $id): bool
     {
         $pdo = Database::getConnection();
-        $stmt = $pdo->prepare('DELETE FROM disciplinas WHERE id = :id');
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $pdo->beginTransaction();
 
-        return $stmt->execute();
+        try {
+            // Desvincula categorias desta disciplina
+            $stmtCat = $pdo->prepare('UPDATE categorias SET disciplina_id = NULL WHERE disciplina_id = :id');
+            $stmtCat->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmtCat->execute();
+
+            // Remove artigos e questões associados à disciplina
+            $stmtArt = $pdo->prepare('DELETE FROM artigos WHERE disciplina_id = :id');
+            $stmtArt->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmtArt->execute();
+
+            $stmtQ = $pdo->prepare('DELETE FROM questoes WHERE disciplina_id = :id');
+            $stmtQ->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmtQ->execute();
+
+            $stmt = $pdo->prepare('DELETE FROM disciplinas WHERE id = :id');
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            $result = $stmt->execute();
+
+            $pdo->commit();
+            return $result;
+        } catch (\Throwable $e) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            throw $e;
+        }
     }
 }

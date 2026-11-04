@@ -79,7 +79,7 @@ require dirname(__DIR__, 2) . '/layout/header.php';
                                     </td>
                                     <td class="text-end pe-3">
                                         <button type="button" 
-                                                class="btn btn-outline-danger btn-sm btn-delete-confirm" 
+                                                class="btn btn-outline-danger btn-sm btn-delete-confirm" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal" data-id="<?= $cId ?>" 
                                                 data-action="<?= Helper::url('/admin/categorias/excluir?id=' . $cId) ?>" 
                                                 data-title="Categoria: <?= Helper::e((string) $cat['nome']) ?>"
                                                 title="Excluir Categoria">
@@ -135,7 +135,7 @@ require dirname(__DIR__, 2) . '/layout/header.php';
                                     </td>
                                     <td class="text-end pe-3">
                                         <button type="button" 
-                                                class="btn btn-outline-danger btn-sm btn-delete-confirm" 
+                                                class="btn btn-outline-danger btn-sm btn-delete-confirm" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal" data-id="<?= $dId ?>" 
                                                 data-action="<?= Helper::url('/admin/disciplinas/excluir?id=' . $dId) ?>" 
                                                 data-title="Disciplina: <?= Helper::e((string) $disc['nome']) ?>"
                                                 title="Excluir Disciplina">

@@ -208,7 +208,7 @@ require dirname(__DIR__, 2) . '/layout/header.php';
 
                                             <!-- Botão de Excluir -->
                                             <button type="button" 
-                                                    class="btn btn-outline-danger btn-sm btn-delete-confirm" 
+                                                    class="btn btn-outline-danger btn-sm btn-delete-confirm" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal" data-id="<?= $uId ?>" 
                                                     data-action="<?= Helper::url('/admin/usuarios/excluir?id=' . $uId) ?>" 
                                                     data-title="Conta de: <?= Helper::e((string) $u['nome']) ?> (<?= Helper::e((string) $u['email']) ?>)"
                                                     title="Excluir Conta">

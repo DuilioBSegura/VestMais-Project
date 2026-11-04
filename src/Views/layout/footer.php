@@ -52,6 +52,7 @@ $currentUser = Auth::user();
                 </div>
                 <form id="deleteConfirmForm" method="POST" action="">
                     <input type="hidden" name="csrf_token" value="<?= Csrf::getToken() ?>">
+                    <input type="hidden" name="id" id="deleteConfirmId" value="">
                     <div class="modal-body py-4">
                         <p class="mb-2">Tem certeza de que deseja excluir o seguinte registro?</p>
                         <div class="alert alert-light border fw-semibold text-break mb-3" id="deleteConfirmItemTitle">
@@ -108,12 +109,20 @@ $currentUser = Auth::user();
                     button.addEventListener('click', function () {
                         const actionUrl = this.getAttribute('data-action');
                         const itemTitle = this.getAttribute('data-title');
+                        const itemId = this.getAttribute('data-id');
+                        const idInput = document.getElementById('deleteConfirmId');
+                        if (idInput) {
+                            idInput.value = itemId || '';
+                        }
 
                         if (deleteForm && actionUrl) {
                             deleteForm.setAttribute('action', actionUrl);
                         }
                         if (deleteItemTitle) {
                             deleteItemTitle.textContent = itemTitle || 'Item selecionado';
+                        }
+                        if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                            bootstrap.Modal.getOrCreateInstance(deleteModalEl).show();
                         }
                     });
                 });

@@ -93,7 +93,7 @@ final class AdminCategoriaController extends BaseController
             return;
         }
 
-        $catId = $id > 0 ? $id : (int) ($_POST['id'] ?? 0);
+        $catId = $id > 0 ? $id : (int) ($_POST['id'] ?? $_GET['id'] ?? 0);
         $categoria = Categoria::getById($catId);
 
         if (!$categoria) {
@@ -166,7 +166,7 @@ final class AdminCategoriaController extends BaseController
             return;
         }
 
-        $discId = $id > 0 ? $id : (int) ($_POST['id'] ?? 0);
+        $discId = $id > 0 ? $id : (int) ($_POST['id'] ?? $_GET['id'] ?? 0);
         $disciplina = Disciplina::getById($discId);
 
         if (!$disciplina) {

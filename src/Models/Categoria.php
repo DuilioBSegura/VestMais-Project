@@ -188,14 +188,34 @@ final class Categoria
     }
 
     /**
-     * Remove uma categoria pelo ID.
+     * Remove uma categoria pelo ID com limpeza atômica de relacionamentos pivot.
      */
     public static function delete(int $id): bool
     {
         $pdo = Database::getConnection();
-        $stmt = $pdo->prepare('DELETE FROM categorias WHERE id = :id');
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $pdo->beginTransaction();
 
-        return $stmt->execute();
+        try {
+            // Remove associações N:N com artigos e questões
+            $stmt1 = $pdo->prepare('DELETE FROM artigo_categorias WHERE categoria_id = :id');
+            $stmt1->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmt1->execute();
+
+            $stmt2 = $pdo->prepare('DELETE FROM questao_categorias WHERE categoria_id = :id');
+            $stmt2->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmt2->execute();
+
+            $stmt = $pdo->prepare('DELETE FROM categorias WHERE id = :id');
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            $result = $stmt->execute();
+
+            $pdo->commit();
+            return $result;
+        } catch (\Throwable $e) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            throw $e;
+        }
     }
 }
