@@ -121,11 +121,11 @@ require dirname(__DIR__) . '/layout/header.php';
                         <?php endif; ?>
                     </div>
 
-                    <!-- Enunciado -->
+                    <!-- Enunciado com Renderização Markdown + KaTeX -->
                     <div class="mb-4">
-                        <p class="fs-6 text-dark lh-base mb-0" style="white-space: pre-line;">
-                            <?= Helper::e((string) $q['enunciado']) ?>
-                        </p>
+                        <div class="enunciado-markdown article-content fs-6 text-dark lh-base mb-0" data-raw-content="<?= Helper::e((string) $q['enunciado']) ?>">
+                            <?= nl2br(Helper::e((string) $q['enunciado'])) ?>
+                        </div>
                     </div>
 
                     <!-- Alternativas de A a E -->
@@ -150,7 +150,9 @@ require dirname(__DIR__) . '/layout/header.php';
                                     <div class="d-flex align-items-baseline gap-2 flex-grow-1">
                                         <span class="badge bg-secondary rounded-pill badge-alternativa fw-bold"><?= $letra ?></span>
                                         <label class="form-check-label text-secondary mb-0 w-100 cursor-pointer user-select-none" for="<?= $inputRadioId ?>">
-                                            <?= Helper::e((string) ($q[$field] ?? '')) ?>
+                                            <span class="alternativa-markdown article-content" data-raw-content="<?= Helper::e((string) ($q[$field] ?? '')) ?>">
+                                                <?= Helper::e((string) ($q[$field] ?? '')) ?>
+                                            </span>
                                         </label>
                                     </div>
                                 </div>
@@ -177,7 +179,7 @@ require dirname(__DIR__) . '/layout/header.php';
                             <div class="d-flex align-items-center gap-2 mb-2 text-primary fw-semibold small text-uppercase">
                                 <i class="bi bi-lightbulb-fill"></i> Resolução e Comentário do Professor
                             </div>
-                            <div class="texto-explicacao text-secondary small lh-base" style="white-space: pre-line;"></div>
+                            <div class="texto-explicacao article-content text-secondary small lh-base"></div>
                         </div>
                     </div>
                 </form>
@@ -187,7 +189,14 @@ require dirname(__DIR__) . '/layout/header.php';
 <?php endif; ?>
 
 <!-- Script Vanilla JS do Motor de Resolução Assíncrona -->
-<script src="<?= Helper::url('/js/questoes.js') ?>"></script>
+<!-- KaTeX e Marked.js para Renderização Estilo Obsidian -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<script src="<?= Helper::url('/js/obsidian-markdown.js?v=1.1.5') ?>"></script>
+<!-- Script Vanilla JS do Motor de Resolução Assíncrona -->
+<script src="<?= Helper::url('/js/questoes.js?v=1.1.5') ?>"></script>
 
 <?php
 require dirname(__DIR__) . '/layout/footer.php';

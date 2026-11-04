@@ -144,34 +144,38 @@ require dirname(__DIR__, 2) . '/layout/header.php';
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
             </div>
-            <div class="modal-body p-4">
+                        <div class="modal-body p-4">
                 <div class="mb-4">
-                    <h6 class="text-uppercase text-muted fw-bold small">Enunciado</h6>
-                    <div class="p-3 bg-light rounded border text-dark" id="modalQEnunciado" style="white-space: pre-line;"></div>
+                    <h6 class="text-uppercase text-muted fw-bold small mb-2">
+                        <i class="bi bi-file-text me-1"></i> Enunciado da Questão
+                    </h6>
+                    <div class="p-3 bg-light rounded border text-dark article-content" id="modalQEnunciado"></div>
                 </div>
 
                 <div class="mb-4">
-                    <h6 class="text-uppercase text-muted fw-bold small">Alternativas de Resposta</h6>
+                    <h6 class="text-uppercase text-muted fw-bold small mb-2">
+                        <i class="bi bi-ui-radios me-1"></i> Alternativas de Resposta
+                    </h6>
                     <div class="list-group">
                         <div class="list-group-item d-flex gap-3 align-items-start" id="modalAltA">
                             <span class="badge bg-secondary rounded-pill fs-7">A</span>
-                            <div class="flex-grow-1 text-alt"></div>
+                            <div class="flex-grow-1 text-alt article-content"></div>
                         </div>
                         <div class="list-group-item d-flex gap-3 align-items-start" id="modalAltB">
                             <span class="badge bg-secondary rounded-pill fs-7">B</span>
-                            <div class="flex-grow-1 text-alt"></div>
+                            <div class="flex-grow-1 text-alt article-content"></div>
                         </div>
                         <div class="list-group-item d-flex gap-3 align-items-start" id="modalAltC">
                             <span class="badge bg-secondary rounded-pill fs-7">C</span>
-                            <div class="flex-grow-1 text-alt"></div>
+                            <div class="flex-grow-1 text-alt article-content"></div>
                         </div>
                         <div class="list-group-item d-flex gap-3 align-items-start" id="modalAltD">
                             <span class="badge bg-secondary rounded-pill fs-7">D</span>
-                            <div class="flex-grow-1 text-alt"></div>
+                            <div class="flex-grow-1 text-alt article-content"></div>
                         </div>
                         <div class="list-group-item d-flex gap-3 align-items-start" id="modalAltE">
                             <span class="badge bg-secondary rounded-pill fs-7">E</span>
-                            <div class="flex-grow-1 text-alt"></div>
+                            <div class="flex-grow-1 text-alt article-content"></div>
                         </div>
                     </div>
                 </div>
@@ -181,7 +185,7 @@ require dirname(__DIR__, 2) . '/layout/header.php';
                         <i class="bi bi-check-circle-fill text-success fs-5"></i>
                         <strong class="text-success">Gabarito Oficial: Letra <span id="modalQCorreta"></span></strong>
                     </div>
-                    <div class="small text-dark" id="modalQExplicacao" style="white-space: pre-line;"></div>
+                    <div class="small text-dark article-content" id="modalQExplicacao"></div>
                 </div>
             </div>
             <div class="modal-footer bg-light">
@@ -191,7 +195,14 @@ require dirname(__DIR__, 2) . '/layout/header.php';
     </div>
 </div>
 
-<!-- Vanilla JS para Preenchimento do Modal de Visualização da Questão -->
+<!-- KaTeX e Marked.js para Renderização Estilo Obsidian -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<script src="<?= Helper::url('/js/obsidian-markdown.js?v=1.1.5') ?>"></script>
+
+<!-- Vanilla JS para Preenchimento do Modal de Visualização da Questão com Suporte a Markdown & KaTeX -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const viewButtons = document.querySelectorAll('.btn-view-question');
@@ -199,34 +210,50 @@ document.addEventListener('DOMContentLoaded', function () {
         button.addEventListener('click', function () {
             const id = this.getAttribute('data-id');
             const disciplina = this.getAttribute('data-disciplina');
-            const enunciado = this.getAttribute('data-enunciado');
-            const correta = this.getAttribute('data-correta');
-            const explicacao = this.getAttribute('data-explicacao');
+            const enunciado = this.getAttribute('data-enunciado') || '';
+            const correta = this.getAttribute('data-correta') || '';
+            const explicacao = this.getAttribute('data-explicacao') || '';
 
             document.getElementById('modalQId').textContent = 'Questão #' + id;
             document.getElementById('modalQDisciplina').textContent = disciplina;
-            document.getElementById('modalQEnunciado').textContent = enunciado;
             document.getElementById('modalQCorreta').textContent = correta;
-            document.getElementById('modalQExplicacao').textContent = explicacao;
+
+            const modalEnunciadoEl = document.getElementById('modalQEnunciado');
+            const modalExplicacaoEl = document.getElementById('modalQExplicacao');
+
+            if (typeof ObsidianMarkdown !== 'undefined') {
+                ObsidianMarkdown.render(enunciado, modalEnunciadoEl);
+                ObsidianMarkdown.render(explicacao || 'Nenhum comentário cadastrado para esta questão.', modalExplicacaoEl);
+            } else {
+                modalEnunciadoEl.textContent = enunciado;
+                modalExplicacaoEl.textContent = explicacao;
+            }
 
             const alts = {
-                'A': { el: document.getElementById('modalAltA'), text: this.getAttribute('data-alta') },
-                'B': { el: document.getElementById('modalAltB'), text: this.getAttribute('data-altb') },
-                'C': { el: document.getElementById('modalAltC'), text: this.getAttribute('data-altc') },
-                'D': { el: document.getElementById('modalAltD'), text: this.getAttribute('data-altd') },
-                'E': { el: document.getElementById('modalAltE'), text: this.getAttribute('data-alte') },
+                'A': { el: document.getElementById('modalAltA'), text: this.getAttribute('data-alta') || '' },
+                'B': { el: document.getElementById('modalAltB'), text: this.getAttribute('data-altb') || '' },
+                'C': { el: document.getElementById('modalAltC'), text: this.getAttribute('data-altc') || '' },
+                'D': { el: document.getElementById('modalAltD'), text: this.getAttribute('data-altd') || '' },
+                'E': { el: document.getElementById('modalAltE'), text: this.getAttribute('data-alte') || '' },
             };
 
             for (const [letter, data] of Object.entries(alts)) {
                 if (data.el) {
-                    data.el.querySelector('.text-alt').textContent = data.text;
+                    const textContainer = data.el.querySelector('.text-alt');
+                    if (textContainer) {
+                        if (typeof ObsidianMarkdown !== 'undefined') {
+                            ObsidianMarkdown.render(data.text, textContainer);
+                        } else {
+                            textContainer.textContent = data.text;
+                        }
+                    }
                     const badge = data.el.querySelector('.badge');
                     if (letter === correta) {
                         data.el.classList.add('list-group-item-success', 'border-success', 'fw-bold');
-                        badge.className = 'badge bg-success rounded-pill fs-7';
+                        if (badge) badge.className = 'badge bg-success rounded-pill fs-7';
                     } else {
                         data.el.classList.remove('list-group-item-success', 'border-success', 'fw-bold');
-                        badge.className = 'badge bg-secondary rounded-pill fs-7';
+                        if (badge) badge.className = 'badge bg-secondary rounded-pill fs-7';
                     }
                 }
             }

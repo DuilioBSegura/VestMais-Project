@@ -5,6 +5,22 @@
  */
 
 document.addEventListener('DOMContentLoaded', function () {
+    // 0. Renderização inicial de Enunciados e Alternativas em Obsidian Markdown + KaTeX
+    if (typeof ObsidianMarkdown !== 'undefined') {
+        document.querySelectorAll('.enunciado-markdown').forEach(function (el) {
+            const raw = el.getAttribute('data-raw-content');
+            if (raw) {
+                ObsidianMarkdown.render(raw, el);
+            }
+        });
+        document.querySelectorAll('.alternativa-markdown').forEach(function (el) {
+            const raw = el.getAttribute('data-raw-content');
+            if (raw) {
+                ObsidianMarkdown.render(raw, el);
+            }
+        });
+    }
+
     const questoesForms = document.querySelectorAll('.form-questao');
 
     questoesForms.forEach(function (form) {
@@ -135,7 +151,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     textoGabarito.innerHTML = `Você marcou a <strong>Letra ${respostaSelecionada}</strong>, mas a alternativa correta é a <strong>Letra ${data.gabarito}</strong>.`;
                 }
 
-                textoExplicacao.textContent = data.explicacao || 'Nenhum comentário adicional disponível para esta questão.';
+                if (typeof ObsidianMarkdown !== 'undefined') {
+                    ObsidianMarkdown.render(data.explicacao || 'Nenhum comentário adicional disponível para esta questão.', textoExplicacao);
+                } else {
+                    textoExplicacao.textContent = data.explicacao || 'Nenhum comentário adicional disponível para esta questão.';
+                }
 
                 // Revela a caixa de explicação com atributos ARIA para leitura imediata
                 feedbackContainer.classList.remove('d-none');

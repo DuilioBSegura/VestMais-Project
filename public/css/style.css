@@ -1515,3 +1515,36 @@ section[id] {
 
 
 
+
+/* ==============================================================================
+   REFINAMENTO: QUESTÕES & ALTERNATIVAS EM MARKDOWN + KATEX
+   ============================================================================== */
+.card-alternativa .alternativa-markdown,
+.card-alternativa .alternativa-markdown p,
+.sim-card-alt .article-content,
+.sim-card-alt .article-content p {
+    margin-bottom: 0 !important;
+    display: inline;
+    line-height: 1.5;
+}
+
+.enunciado-markdown,
+#simEnunciado,
+#modalQEnunciado {
+    font-size: 1rem;
+    line-height: 1.65;
+}
+
+.texto-explicacao,
+#simExplicacao,
+#modalQExplicacao {
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.katex-display {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0.4rem 0;
+    margin: 0.8rem 0;
+}
