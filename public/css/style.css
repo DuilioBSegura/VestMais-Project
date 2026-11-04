@@ -595,6 +595,253 @@ section[id] {
     margin-bottom: 0.5rem;
 }
 
+/* ==============================================================================
+   ESTILO OBSIDIAN MARKDOWN (CALLOUTS, DESTAQUES, MATH & TABELAS)
+   ============================================================================== */
+
+/* Highlight Obsidian (==texto destacado==) */
+.obsidian-highlight {
+    background-color: #fef08a;
+    color: #1e293b;
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+/* Base de Callouts Obsidian */
+.obsidian-callout {
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0;
+    border: 1px solid transparent;
+    border-left-width: 4px;
+    font-size: 0.98rem;
+    line-height: 1.65;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.obsidian-callout .callout-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    user-select: none;
+}
+
+.obsidian-callout .callout-icon {
+    font-size: 1.15rem;
+    line-height: 1;
+}
+
+.obsidian-callout .callout-body > :last-child {
+    margin-bottom: 0;
+}
+
+/* Variantes de Cores Obsidian */
+.callout-note {
+    background-color: #f0f9ff;
+    border-color: #bae6fd;
+    border-left-color: #0284c7;
+    color: #0c4a6e;
+}
+.callout-note .callout-header {
+    color: #0369a1;
+}
+
+.callout-tip {
+    background-color: #ecfdf5;
+    border-color: #a7f3d0;
+    border-left-color: #059669;
+    color: #064e3b;
+}
+.callout-tip .callout-header {
+    color: #047857;
+}
+
+.callout-warning {
+    background-color: #fffbeb;
+    border-color: #fde68a;
+    border-left-color: #d97706;
+    color: #78350f;
+}
+.callout-warning .callout-header {
+    color: #b45309;
+}
+
+.callout-important {
+    background-color: #f5f3ff;
+    border-color: #ddd6fe;
+    border-left-color: #7c3aed;
+    color: #4c1d95;
+}
+.callout-important .callout-header {
+    color: #6d28d9;
+}
+
+.callout-danger {
+    background-color: #fff1f2;
+    border-color: #fecdd3;
+    border-left-color: #e11d48;
+    color: #881337;
+}
+.callout-danger .callout-header {
+    color: #be123c;
+}
+
+.callout-example {
+    background-color: #f0fdfa;
+    border-color: #99f6e4;
+    border-left-color: #0d9488;
+    color: #134e4a;
+}
+.callout-example .callout-header {
+    color: #0f766e;
+}
+
+.callout-question {
+    background-color: #eef2ff;
+    border-color: #c7d2fe;
+    border-left-color: #4f46e5;
+    color: #312e81;
+}
+.callout-question .callout-header {
+    color: #4338ca;
+}
+
+.callout-success {
+    background-color: #f0fdf4;
+    border-color: #bbf7d0;
+    border-left-color: #16a34a;
+    color: #14532d;
+}
+.callout-success .callout-header {
+    color: #15803d;
+}
+
+.callout-quote {
+    background-color: #f8fafc;
+    border-color: #e2e8f0;
+    border-left-color: #64748b;
+    color: #334155;
+}
+.callout-quote .callout-header {
+    color: #475569;
+}
+
+/* Tabelas Estilo Obsidian / GFM */
+.article-content table,
+.article-body table {
+    width: 100%;
+    margin: 1.5rem 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 0.95rem;
+}
+
+.article-content th,
+.article-body th {
+    background-color: #f8fafc;
+    color: #334155;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    padding: 0.75rem 1rem;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.article-content td,
+.article-body td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #f1f5f9;
+    color: #1e293b;
+}
+
+.article-content tr:last-child td,
+.article-body tr:last-child td {
+    border-bottom: none;
+}
+
+.article-content tr:hover,
+.article-body tr:hover {
+    background-color: #f8fafc;
+}
+
+/* Checklists e Task Lists Obsidian */
+.obsidian-task-item {
+    list-style: none;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.4rem;
+}
+
+.obsidian-task-check {
+    width: 1.1rem;
+    height: 1.1rem;
+    accent-color: var(--vest-primary);
+    cursor: default;
+    margin-top: 0.15rem;
+}
+
+.task-text-done {
+    text-decoration: line-through;
+    color: #94a3b8;
+}
+
+/* Blocos de Código com Botão Copiar Obsidian */
+.article-content pre,
+.article-body pre {
+    position: relative;
+    background-color: #0f172a;
+    color: #f8fafc;
+    padding: 1.25rem 1.5rem;
+    border-radius: 10px;
+    overflow-x: auto;
+    font-size: 0.9rem;
+    margin: 1.5rem 0;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.article-content pre code,
+.article-body pre code {
+    background: transparent;
+    padding: 0;
+    border: none;
+    color: inherit;
+    font-size: inherit;
+}
+
+.btn-copy-code {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e2e8f0;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-copy-code:hover {
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+}
+
+.btn-copy-code.copied {
+    background: #059669;
+    color: #ffffff;
+    border-color: #059669;
+}
+
 /* Sidebar do Artigo */
 .article-sidebar {
     position: sticky;

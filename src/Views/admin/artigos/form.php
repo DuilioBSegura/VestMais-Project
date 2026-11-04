@@ -150,25 +150,49 @@ $artigoId = (int) ($artigo['id'] ?? 0);
 
                     <!-- Seção Fluída de Conteúdo com Barra de Ferramentas e Live Preview -->
                     <div class="mb-4">
-                        <!-- Toolbar Superior -->
+                        <!-- Toolbar Superior Estilo Obsidian -->
                         <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 p-2 bg-light border border-bottom-0 rounded-top">
                             <!-- Botões de Formatação Rápida -->
                             <div class="d-flex flex-wrap align-items-center gap-1" id="formatToolbar">
+                                <button type="button" class="btn btn-sm btn-white border bg-white" data-action="h1" title="Título H1 (# )"><strong>H1</strong></button>
                                 <button type="button" class="btn btn-sm btn-white border bg-white" data-action="h2" title="Título H2 (## )"><strong>H2</strong></button>
                                 <button type="button" class="btn btn-sm btn-white border bg-white" data-action="h3" title="Subtítulo H3 (### )"><strong>H3</strong></button>
                                 <div class="vr mx-1"></div>
                                 <button type="button" class="btn btn-sm btn-white border bg-white" data-action="bold" title="Negrito (**texto**)"><i class="bi bi-type-bold"></i></button>
                                 <button type="button" class="btn btn-sm btn-white border bg-white" data-action="italic" title="Itálico (*texto*)"><i class="bi bi-type-italic"></i></button>
-                                <button type="button" class="btn btn-sm btn-white border bg-white" data-action="list" title="Lista (- item)"><i class="bi bi-list-ul"></i></button>
+                                <button type="button" class="btn btn-sm btn-white border bg-white" data-action="strike" title="Tachado (~~texto~~)"><i class="bi bi-type-strikethrough"></i></button>
+                                <button type="button" class="btn btn-sm btn-warning bg-opacity-25 border text-dark fw-bold" data-action="highlight" title="Destaque Obsidian (==texto==)">
+                                    <i class="bi bi-highlighter"></i> ==Marca==
+                                </button>
+                                <div class="vr mx-1"></div>
+                                <button type="button" class="btn btn-sm btn-white border bg-white" data-action="list" title="Lista com Marcadores (- )"><i class="bi bi-list-ul"></i></button>
+                                <button type="button" class="btn btn-sm btn-white border bg-white" data-action="task" title="Checklist / Tarefas (- [ ])"><i class="bi bi-check2-square text-success"></i></button>
                                 <button type="button" class="btn btn-sm btn-white border bg-white" data-action="quote" title="Citação (> texto)"><i class="bi bi-quote"></i></button>
                                 <div class="vr mx-1"></div>
-                                <button type="button" class="btn btn-sm btn-white border bg-white text-success fw-semibold" data-action="dica" title="Bloco Dica ENEM">
-                                    <i class="bi bi-lightbulb-fill text-warning me-1"></i> Dica ENEM
+                                <!-- Dropdown de Callouts Obsidian -->
+                                <div class="btn-group btn-group-sm">
+                                    <button type="button" class="btn btn-sm btn-white border bg-white text-success fw-semibold dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" title="Inserir Caixa de Destaque Obsidian">
+                                        <i class="bi bi-card-text text-success me-1"></i> Callouts Obsidian
+                                    </button>
+                                    <ul class="dropdown-menu shadow-sm">
+                                        <li><button class="dropdown-item d-flex align-items-center gap-2" type="button" data-action="callout-tip"><i class="bi bi-lightbulb-fill text-success"></i> Dica ENEM ([!tip])</button></li>
+                                        <li><button class="dropdown-item d-flex align-items-center gap-2" type="button" data-action="callout-warning"><i class="bi bi-exclamation-triangle-fill text-warning"></i> Atenção / Pegadinha ([!warning])</button></li>
+                                        <li><button class="dropdown-item d-flex align-items-center gap-2" type="button" data-action="callout-important"><i class="bi bi-exclamation-circle-fill text-primary"></i> Ponto Importante ([!important])</button></li>
+                                        <li><button class="dropdown-item d-flex align-items-center gap-2" type="button" data-action="callout-example"><i class="bi bi-journal-bookmark-fill text-info"></i> Exemplo Resolvido ([!example])</button></li>
+                                    </ul>
+                                </div>
+                                <div class="vr mx-1"></div>
+                                <!-- Botões Matemáticos LaTeX (KaTeX) -->
+                                <button type="button" class="btn btn-sm btn-white border bg-white text-primary" data-action="math-inline" title="Fórmula Matemática em Linha ($x$)">
+                                    <strong>$f(x)$</strong>
                                 </button>
-                                <button type="button" class="btn btn-sm btn-white border bg-white text-warning fw-semibold" data-action="nota" title="Bloco de Nota">
-                                    <i class="bi bi-exclamation-circle-fill text-warning me-1"></i> Nota
+                                <button type="button" class="btn btn-sm btn-white border bg-white text-primary" data-action="math-block" title="Bloco Matemático Centralizado ($$)">
+                                    <strong>$$ \Sigma $$</strong>
                                 </button>
-                                <button type="button" class="btn btn-sm btn-white border bg-white" data-action="code" title="Fórmula ou Código">
+                                <button type="button" class="btn btn-sm btn-white border bg-white" data-action="table" title="Tabela Formatada">
+                                    <i class="bi bi-table"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-white border bg-white" data-action="code" title="Bloco de Código">
                                     <i class="bi bi-code-slash"></i>
                                 </button>
                             </div>
@@ -193,27 +217,27 @@ $artigoId = (int) ($artigo['id'] ?? 0);
                         </div>
 
                         <!-- Área de Edição e Prévia Simultânea (Split View) -->
-                        <div class="row g-0 border rounded-bottom" id="editorSplitArea" style="min-height: 480px;">
+                        <div class="row g-0 border rounded-bottom" id="editorSplitArea" style="min-height: 520px;">
                             <!-- Coluna do Editor -->
                             <div class="col-lg-6 border-end" id="colEditor">
                                 <textarea class="form-control border-0 rounded-0 font-monospace p-3 <?= isset($errors['conteudo']) ? 'is-invalid' : '' ?>" 
                                           id="conteudo" 
                                           name="conteudo" 
-                                          rows="18" 
-                                          placeholder="Digite ou cole aqui o conteúdo estruturado do artigo..." 
-                                          style="resize: vertical; min-height: 480px;"
+                                          rows="22" 
+                                          placeholder="Escreva em Markdown no estilo Obsidian... Fórmulas LaTeX com $, destaques com ==, e callouts com > [!tip]" 
+                                          style="resize: vertical; min-height: 520px; font-size: 0.95rem; line-height: 1.6;"
                                           required><?= Helper::e((string) ($artigo['conteudo'] ?? '')) ?></textarea>
                             </div>
 
-                            <!-- Coluna do Live Preview -->
+                            <!-- Coluna do Live Preview Estilo Obsidian -->
                             <div class="col-lg-6 bg-white" id="colPreview">
                                 <div class="p-3 border-bottom bg-light d-flex align-items-center justify-content-between">
                                     <span class="small fw-bold text-uppercase text-muted">
-                                        <i class="bi bi-eye-fill text-success me-1"></i> Prévia em Tempo Real (Visualização do Aluno)
+                                        <i class="bi bi-markdown-fill text-success me-1"></i> Prévia em Tempo Real (Estilo Obsidian)
                                     </span>
-                                    <span class="badge bg-secondary-subtle text-secondary small">Renderização Instantânea</span>
+                                    <span class="badge bg-success-subtle text-success small">Renderizador Ativo</span>
                                 </div>
-                                <div class="p-4 overflow-auto article-body" id="livePreviewBox" style="max-height: 520px; min-height: 440px;">
+                                <div class="p-4 overflow-auto article-content article-body" id="livePreviewBox" style="max-height: 560px; min-height: 480px;">
                                     <p class="text-muted fst-italic">Comece a digitar no editor para visualizar a formatação em tempo real...</p>
                                 </div>
                             </div>
@@ -283,58 +307,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // 2. Parser Leve de Markdown / Destaques Didáticos Vest+
-    function renderMarkdown(rawText) {
-        if (!rawText || rawText.trim() === '') {
-            return '<p class="text-muted fst-italic">Comece a digitar no editor para visualizar a formatação em tempo real...</p>';
-        }
-
-        let html = rawText;
-
-        // Escape básico de tags HTML perigosas para visualização
-        html = html
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;');
-
-        // Restaura tags permitidas de formatação
-        // Dica ENEM
-        html = html.replace(/\[DICA ENEM\]([\s\S]*?)\[\/DICA ENEM\]/gi, function (_, content) {
-            return `<div class="callout-dica-enem"><div class="callout-title"><i class="bi bi-lightbulb-fill"></i> Dica para o ENEM / Vestibulares</div><div>${content.trim()}</div></div>`;
-        });
-
-        // Nota de Atenção
-        html = html.replace(/\[NOTA\]([\s\S]*?)\[\/NOTA\]/gi, function (_, content) {
-            return `<div class="callout-nota"><div class="callout-title"><i class="bi bi-exclamation-triangle-fill"></i> Ponto de Atenção</div><div>${content.trim()}</div></div>`;
-        });
-
-        // Cabeçalhos Markdown
-        html = html.replace(/^### (.*$)/gim, '<h4 class="fw-bold mt-3 mb-2 text-dark">$1</h4>');
-        html = html.replace(/^## (.*$)/gim, '<h3 class="fw-bold mt-4 mb-2 text-dark border-bottom pb-1">$1</h3>');
-        html = html.replace(/^# (.*$)/gim, '<h2 class="fw-bold mt-4 mb-3 text-dark">$1</h2>');
-
-        // Formatação em linha: Negrito, Itálico e Código
-        html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-        html = html.replace(/`([^`]+)`/g, '<code class="bg-light px-1 py-0.5 rounded text-dark font-monospace">$1</code>');
-
-        // Citações
-        html = html.replace(/^>\s?(.*$)/gim, '<blockquote class="border-start border-4 border-success ps-3 py-1 my-2 bg-light fst-italic text-secondary">$1</blockquote>');
-
-        // Listas simples
-        html = html.replace(/^- (.*$)/gim, '<li class="ms-3">$1</li>');
-
-        // Parágrafos
-        html = html.replace(/\n\n/g, '</p><p class="mb-3">');
-        html = '<p class="mb-3">' + html + '</p>';
-
-        return html;
-    }
-
-    // 3. Atualização da Prévia & Estatísticas
+    // 2. Parser Estilo Obsidian (KaTeX + Callouts + Highlights + GFM)
     function updatePreview() {
         const text = conteudoArea.value;
-        previewBox.innerHTML = renderMarkdown(text);
+        if (typeof ObsidianMarkdown !== 'undefined') {
+            ObsidianMarkdown.render(text, previewBox);
+        } else {
+            previewBox.innerText = text;
+        }
 
         // Contagem de palavras e tempo estimado
         const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
@@ -358,7 +338,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Inicializa a primeira renderização
     updatePreview();
 
-    // 4. Verificação de Rascunho no LocalStorage
+    // 3. Verificação de Rascunho no LocalStorage
     if (!isEdit) {
         const savedDraft = localStorage.getItem(storageKey);
         if (savedDraft) {
@@ -390,18 +370,22 @@ document.addEventListener('DOMContentLoaded', function () {
         localStorage.removeItem(storageKey);
     });
 
-    // 5. Botões da Barra de Ferramentas de Formatação
+    // 4. Botões da Barra de Ferramentas de Formatação Estilo Obsidian
     document.querySelectorAll('#formatToolbar button').forEach(function (btn) {
         btn.addEventListener('click', function () {
             const action = this.getAttribute('data-action');
+            if (!action) return;
             const start = conteudoArea.selectionStart;
             const end = conteudoArea.selectionEnd;
             const selectedText = conteudoArea.value.substring(start, end);
             let replacement = '';
 
             switch (action) {
+                case 'h1':
+                    replacement = `\n# ${selectedText || 'Título Principal'}\n`;
+                    break;
                 case 'h2':
-                    replacement = `\n## ${selectedText || 'Título da Seção'}\n`;
+                    replacement = `\n## ${selectedText || 'Título de Seção'}\n`;
                     break;
                 case 'h3':
                     replacement = `\n### ${selectedText || 'Subtítulo do Tópico'}\n`;
@@ -412,20 +396,44 @@ document.addEventListener('DOMContentLoaded', function () {
                 case 'italic':
                     replacement = `*${selectedText || 'texto em itálico'}*`;
                     break;
+                case 'strike':
+                    replacement = `~~${selectedText || 'texto tachado'}~~`;
+                    break;
+                case 'highlight':
+                    replacement = `==${selectedText || 'texto destacado'}==`;
+                    break;
                 case 'list':
                     replacement = `\n- ${selectedText || 'Primeiro item'}\n- Segundo item\n`;
+                    break;
+                case 'task':
+                    replacement = `\n- [ ] ${selectedText || 'Item a realizar'}\n- [x] Item concluído\n`;
                     break;
                 case 'quote':
                     replacement = `\n> ${selectedText || 'Citação ou conceito chave...'}\n`;
                     break;
-                case 'dica':
-                    replacement = `\n[DICA ENEM]\n${selectedText || 'Dica prática: preste atenção neste detalhe nas questões do ENEM!'}\n[/DICA ENEM]\n`;
+                case 'callout-tip':
+                    replacement = `\n> [!tip] Dica para o ENEM & Vestibulares\n> ${selectedText || 'Preste atenção nas entrelinhas do enunciado desta questão.'}\n`;
                     break;
-                case 'nota':
-                    replacement = `\n[NOTA]\n${selectedText || 'Nota importante sobre pré-requisitos para este assunto.'}\n[/NOTA]\n`;
+                case 'callout-warning':
+                    replacement = `\n> [!warning] Atenção / Pegadinha Recorrente\n> ${selectedText || 'Cuidado para não confundir os conceitos de...'}\n`;
+                    break;
+                case 'callout-important':
+                    replacement = `\n> [!important] Ponto Fundamental\n> ${selectedText || 'Esta fórmula ou propriedade é essencial para a prova.'}\n`;
+                    break;
+                case 'callout-example':
+                    replacement = `\n> [!example] Exemplo Resolvido Passo a Passo\n> **Enunciado:** Calcule o valor da expressão...\n> **Resolução:** Aplicando a fórmula...\n`;
+                    break;
+                case 'math-inline':
+                    replacement = `$${selectedText || 'f(x) = ax^2 + bx + c'}$`;
+                    break;
+                case 'math-block':
+                    replacement = `\n$$\n${selectedText || 'x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}'}\n$$\n`;
+                    break;
+                case 'table':
+                    replacement = `\n| Conceito | Aplicação | Exemplo |\n| :--- | :--- | :--- |\n| P.A. | $a_n = a_1 + (n-1)r$ | Sequências lineares |\n| P.G. | $a_n = a_1 \\cdot q^{n-1}$ | Crescimento exponencial |\n`;
                     break;
                 case 'code':
-                    replacement = `\`${selectedText || 'f(x) = ax + b'}\``;
+                    replacement = `\n\`\`\`python\n${selectedText || '# Exemplo de código ou algoritmo\nprint("VestMais")'}\n\`\`\`\n`;
                     break;
             }
 
@@ -435,7 +443,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // 6. Alternador de Modos de Visualização (Split, Editor, Preview)
+    // 5. Alternador de Modos de Visualização (Split, Editor, Preview)
     btnModeSplit.addEventListener('click', function () {
         colEditor.className = 'col-lg-6 border-end';
         colPreview.className = 'col-lg-6 bg-white d-block';
@@ -461,6 +469,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
+
+<!-- KaTeX e Marked.js para Renderização Estilo Obsidian -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<script src="<?= Helper::url('/js/obsidian-markdown.js?v=1.1.4') ?>"></script>
 
 <?php
 require dirname(__DIR__, 2) . '/layout/footer.php';

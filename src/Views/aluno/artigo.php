@@ -6,37 +6,34 @@ use App\Core\Helper;
 
 require dirname(__DIR__) . '/layout/header.php';
 
-// Parser didático seguro de conteúdo Markdown para leitura imersiva
+// Parser didático seguro de conteúdo Markdown para leitura imersiva (Fallback SSR)
 $conteudoFormatado = (function (string $raw): string {
     $safe = htmlspecialchars($raw, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 
+    // Destaque Obsidian (==texto destacado==)
+    $safe = preg_replace('/==([^=\n]+)==/', '<mark class="obsidian-highlight">$1</mark>', $safe);
+
+    // Callouts Obsidian (> [!tipo] Titulo)
+    $safe = preg_replace_callback('/^>\s*\[!([a-zA-Z0-9_\-]+)\](?:\s*(.*))?$/m', function ($matches) {
+        $type = strtolower($matches[1]);
+        $title = !empty($matches[2]) ? trim($matches[2]) : ucfirst($type);
+        return "<div class=\"obsidian-callout callout-{$type}\"><div class=\"callout-header\"><i class=\"bi bi-info-circle-fill callout-icon\"></i> <span class=\"callout-title\">{$title}</span></div><div class=\"callout-body\">";
+    }, $safe);
+
     // Títulos estruturados
     $safe = preg_replace('/^# (.*?)$/m', '<h2 class="h3 fw-bold text-dark mt-4 mb-3 border-bottom pb-2">$1</h2>', $safe);
-    $safe = preg_replace('/^## (.*?)$/m', '<h3 class="h4 fw-bold text-dark mt-4 mb-2">$1</h3>', $safe);
+    $safe = preg_replace('/^## (.*?)$/m', '<h3 class="h4 fw-bold text-dark mt-4 mb-2 border-bottom pb-1">$1</h3>', $safe);
     $safe = preg_replace('/^### (.*?)$/m', '<h4 class="h5 fw-semibold text-secondary mt-3 mb-2">$1</h4>', $safe);
 
     // Destaques e código em linha
     $safe = preg_replace('/\*\*(.*?)\*\*/', '<strong class="text-dark">$1</strong>', $safe);
+    $safe = preg_replace('/~~(.*?)~~/', '<del class="text-muted">$1</del>', $safe);
+    $safe = preg_replace('/\*(.*?)\*/', '<em>$1</em>', $safe);
     $safe = preg_replace('/`(.*?)`/', '<code>$1</code>', $safe);
 
-    // Caixas de Destaque Didáticas (Callout Dica ENEM)
-    $safe = preg_replace(
-        '/^>\s*(?:\[!DICA\]|\[!ENEM\]|Dica ENEM:?)\s*(.*?)$/m',
-        '<div class="callout-dica-enem"><div class="callout-title"><i class="bi bi-lightbulb-fill"></i> Dica ENEM & Vestibulares</div><div>$1</div></div>',
-        $safe
-    );
-
-    // Caixas de Destaque Didáticas (Callout Nota / Atenção)
-    $safe = preg_replace(
-        '/^>\s*(?:\[!NOTA\]|\[!ATENCAO\]|Nota:?)\s*(.*?)$/m',
-        '<div class="callout-nota"><div class="callout-title"><i class="bi bi-info-circle-fill"></i> Nota Importante</div><div>$1</div></div>',
-        $safe
-    );
-
-    // Citações em Bloco Padrão
-    $safe = preg_replace('/^>\s*(.*?)$/m', '<blockquote>$1</blockquote>', $safe);
-
-    // Listas com marcadores
+    // Checklists e Listas
+    $safe = preg_replace('/^- \[ \] (.*?)$/m', '<li class="obsidian-task-item"><input type="checkbox" disabled class="obsidian-task-check"> <span>$1</span></li>', $safe);
+    $safe = preg_replace('/^- \[(?:x|X)\] (.*?)$/m', '<li class="obsidian-task-item task-done"><input type="checkbox" checked disabled class="obsidian-task-check"> <span class="task-text-done">$1</span></li>', $safe);
     $safe = preg_replace('/^- (.*?)$/m', '<div class="d-flex align-items-baseline mb-2"><i class="bi bi-check-circle-fill text-success fs-6 me-2"></i><div>$1</div></div>', $safe);
 
     return nl2br((string) $safe);
@@ -108,8 +105,8 @@ $artigosRelacionados = $artigosRelacionados ?? [];
                     </div>
                 </header>
 
-                <!-- Corpo do Conteúdo Teórico -->
-                <article class="article-content">
+                <!-- Corpo do Conteúdo Teórico Estilo Obsidian -->
+                <article class="article-content" id="articleBody" data-raw-content="<?= htmlspecialchars((string) $artigo['conteudo'], ENT_QUOTES, 'UTF-8') ?>">
                     <?= $conteudoFormatado ?>
                 </article>
 
@@ -201,6 +198,24 @@ $artigosRelacionados = $artigosRelacionados ?? [];
         </aside>
     </div>
 </div>
+
+<!-- KaTeX e Marked.js para Renderização Estilo Obsidian -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<script src="<?= Helper::url('/js/obsidian-markdown.js?v=1.1.4') ?>"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const articleBody = document.getElementById('articleBody');
+    if (articleBody && typeof ObsidianMarkdown !== 'undefined') {
+        const raw = articleBody.getAttribute('data-raw-content');
+        if (raw) {
+            ObsidianMarkdown.render(raw, articleBody);
+        }
+    }
+});
+</script>
 
 <?php
 require dirname(__DIR__) . '/layout/footer.php';
