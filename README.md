@@ -299,17 +299,6 @@ Acesse a aplicação no navegador em:
 
 ---
 
-## 🔑 Credenciais Homologadas para Avaliação Técnica
-
-Para agilizar a avaliação técnica, a tela de login (`/login`) conta com **botões de preenchimento automático em 1 clique**:
-
-| Papel | E-mail | Senha | Área de Destino |
-| :--- | :--- | :--- | :--- |
-| **Administrador Real** | `duiliobsegura@gmail.com` | `AdminVest@2026` | Painel Administrativo (`/admin/dashboard`) |
-| **Estudante (Aluno)** | `estudante@vestmais.com.br` | `AlunoVest@2026` | Dashboard do Aluno (`/aluno/dashboard`) |
-
----
-
 ## 🧪 Suíte Completa de Auditoria Técnica & QA (Pré-Apresentação)
 
 O projeto inclui duas ferramentas autônomas de verificação executáveis via PHP CLI nativo, sem exigir PHPUnit ou Composer:
